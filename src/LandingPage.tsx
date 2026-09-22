@@ -87,33 +87,76 @@ export function LandingPage({ onStartLearning }: LandingPageProps) {
         />
       </main>
 
-      {/* Modern Accessible Footer */}
-      <footer className="py-14 px-4 sm:px-6 lg:px-8 border-t" style={{ borderColor: c.border, background: c.bgAlt }}>
-        <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
-          <div className="flex items-center gap-3">
-            <div className="w-9 h-9 rounded-xl to-indigo-600 p-0.5">
-              <div className="w-full h-full rounded-[10px] flex items-center justify-center bg-white">
-                <img src="/logoGT.png" alt="logo" />
-              </div>
+      {/* Apple Footer Legal Block (from SKILL.md) */}
+      <footer
+        className="py-12 px-4 sm:px-6 lg:px-8 border-t"
+        style={{
+          background: isDark ? '#161617' : '#f5f5f7',
+          borderColor: isDark ? 'rgba(255,255,255,0.1)' : '#d6d6d6'
+        }}
+      >
+        <div className="max-w-[1200px] mx-auto space-y-6">
+          {/* Fine print notes */}
+          <div
+            className="text-xs leading-[1.33] space-y-2 border-b pb-6"
+            style={{
+              color: isDark ? '#86868b' : '#707070',
+              borderColor: isDark ? 'rgba(255,255,255,0.08)' : '#e8e8ed'
+            }}
+          >
+            <p>
+              1. O Ngola Tutor utiliza modelos de inteligência artificial multimodal para fornecer tutoria socrática adaptativa. As respostas são geradas com salvaguardas pedagógicas e éticas estritas.
+            </p>
+            <p>
+              2. As funcionalidades de visão computacional, audiodescrição e avatar em língua gestual foram concebidas com foco em inclusão e acessibilidade universal (WCAG 2.1 AA).
+            </p>
+          </div>
+
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 text-xs">
+            <div className="flex items-center gap-2">
+              <span className="font-display font-semibold text-sm" style={{ color: isDark ? '#f5f5f7' : '#1d1d1f' }}>
+                Ngola Tutor AI
+              </span>
+              <span style={{ color: isDark ? '#86868b' : '#707070' }}>— Educação e Inclusão Digital</span>
             </div>
-            <span className="font-heading font-extrabold text-lg tracking-tight">
-              Ngola<span className="bg-gradient-to-r from-blue-600 to-indigo-500 bg-clip-text text-transparent">Tutor</span> AI
-            </span>
+
+            <div className="flex flex-wrap items-center gap-6" style={{ color: isDark ? '#86868b' : '#707070' }}>
+              <button
+                onClick={() => setShowTermsModal(true)}
+                className="text-[#0066cc] dark:text-[#2997ff] hover:underline font-normal flex items-center gap-1 cursor-pointer"
+              >
+                <ShieldCheck size={13} />
+                <span>Termos e Privacidade</span>
+              </button>
+              <a
+                href="#home"
+                onClick={(e) => { e.preventDefault(); scrollToSection('home'); }}
+                className="hover:underline cursor-pointer"
+              >
+                Início
+              </a>
+              <a
+                href="#features"
+                onClick={(e) => { e.preventDefault(); scrollToSection('features'); }}
+                className="hover:underline cursor-pointer"
+              >
+                Recursos
+              </a>
+              <a
+                href="#faq"
+                onClick={(e) => { e.preventDefault(); scrollToSection('faq'); }}
+                className="hover:underline cursor-pointer"
+              >
+                FAQ
+              </a>
+            </div>
           </div>
 
-          <div className="flex items-center gap-6 text-xs font-semibold" style={{ color: c.textMuted }}>
-            <button
-              onClick={() => setShowTermsModal(true)}
-              className="hover:text-blue-500 transition-colors flex items-center gap-1.5"
-            >
-              <ShieldCheck size={14} className="text-blue-500" />
-              <span>Termos & Privacidade</span>
-            </button>
+          <div
+            className="text-[12px] leading-[1.33] flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 pt-2"
+            style={{ color: isDark ? '#86868b' : '#707070' }}
+          >
           </div>
-
-          <p style={{ color: c.textMuted }} className="text-xs sm:text-sm flex items-center gap-1">
-            © {new Date().getFullYear()} Ngola Tutor AI. Educação e Ensino para todos.
-          </p>
         </div>
       </footer>
 
@@ -125,3 +168,4 @@ export function LandingPage({ onStartLearning }: LandingPageProps) {
     </div>
   );
 }
+

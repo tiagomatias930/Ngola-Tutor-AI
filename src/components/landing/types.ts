@@ -2,6 +2,31 @@ import { type Lang } from '../../i18n';
 
 export type Theme = 'light' | 'dark';
 
+export const APPLE_PALETTE = {
+  primaryInk: '#1d1d1f',
+  primaryInkGradient: 'linear-gradient(184deg, #1d1d1f 20%, #0000f9 76%, #252525 95%)',
+  midGray: '#707070',
+  deepGray: '#474747',
+  hairline: '#d6d6d6',
+  canvas: '#f5f5f7',
+  paper: '#ffffff',
+  coolWash: '#e8e8ed',
+  fadedSurface: '#fafafc',
+  quietDot: '#777779',
+  electricBlue: '#0071e3',
+  linkBlue: '#0066cc',
+  ember: '#b64400',
+  // Product finishes
+  sky: '#c8d8e0',
+  citrus: '#dddc8c',
+  starlight: '#f0e4d3',
+  silver: '#e3e4e5',
+  blush: '#e8d0d0',
+  indigo: '#596680',
+  midnight: '#2e3642',
+  citrusGradient: 'linear-gradient(184deg, #1d1d1f 0%, #dfe74f 33%, #5a7e2 100%)',
+};
+
 export interface ThemeColors {
   bg: string;
   bgAlt: string;
@@ -25,50 +50,50 @@ export interface ThemeColors {
   ctaOverlay: string;
 }
 
-export const darkTheme: ThemeColors = {
-  bg: '#080C14',
-  bgAlt: '#0F172A',
-  bgCard: '#131C31',
-  text: '#F8FAFC',
-  textMuted: '#94A3B8',
-  textSubtle: '#64748B',
-  border: 'rgba(148, 163, 184, 0.12)',
-  borderHover: '#3B82F6',
-  accent: '#3B82F6',
-  accentHover: '#2563EB',
-  navBg: 'rgba(8, 12, 20, 0.85)',
-  heroBadgeBg: 'rgba(59, 130, 246, 0.12)',
-  heroBadgeText: '#60A5FA',
-  cardShadow: '0 12px 32px -4px rgba(0, 0, 0, 0.4), 0 4px 12px -2px rgba(0, 0, 0, 0.2)',
-  featureBg: '#0B1120',
-  featureIconBg: 'rgba(59, 130, 246, 0.12)',
-  stepBorder: 'rgba(148, 163, 184, 0.15)',
-  caseBg: '#0B1120',
-  caseCardBg: '#131C31',
-  ctaOverlay: 'rgba(8, 12, 20, 0.85)',
+export const lightTheme: ThemeColors = {
+  bg: '#ffffff',
+  bgAlt: '#f5f5f7',
+  bgCard: '#ffffff',
+  text: '#1d1d1f',
+  textMuted: '#707070',
+  textSubtle: '#474747',
+  border: '#d6d6d6',
+  borderHover: '#0071e3',
+  accent: '#0071e3',
+  accentHover: '#0077ed',
+  navBg: 'rgba(255, 255, 255, 0.82)',
+  heroBadgeBg: 'transparent',
+  heroBadgeText: '#b64400',
+  cardShadow: 'none',
+  featureBg: '#f5f5f7',
+  featureIconBg: '#e8e8ed',
+  stepBorder: 'transparent',
+  caseBg: '#ffffff',
+  caseCardBg: '#f5f5f7',
+  ctaOverlay: 'rgba(29, 29, 31, 0.45)',
 };
 
-export const lightTheme: ThemeColors = {
-  bg: '#FFFFFF',
-  bgAlt: '#F8FAFC',
-  bgCard: '#FFFFFF',
-  text: '#0F172A',
-  textMuted: '#475569',
-  textSubtle: '#94A3B8',
-  border: '#E2E8F0',
-  borderHover: '#2563EB',
-  accent: '#2563EB',
-  accentHover: '#1D4ED8',
-  navBg: 'rgba(255, 255, 255, 0.88)',
-  heroBadgeBg: '#EEF2FF',
-  heroBadgeText: '#3730A3',
-  cardShadow: '0 10px 25px -5px rgba(15, 23, 42, 0.05), 0 8px 10px -6px rgba(15, 23, 42, 0.02)',
-  featureBg: '#F8FAFC',
-  featureIconBg: '#EEF2FF',
-  stepBorder: '#E2E8F0',
-  caseBg: '#F8FAFC',
-  caseCardBg: '#FFFFFF',
-  ctaOverlay: 'rgba(15, 23, 42, 0.4)',
+export const darkTheme: ThemeColors = {
+  bg: '#000000',
+  bgAlt: '#161617',
+  bgCard: '#1d1d1f',
+  text: '#f5f5f7',
+  textMuted: '#a1a1a6',
+  textSubtle: '#86868b',
+  border: 'rgba(255, 255, 255, 0.12)',
+  borderHover: '#2997ff',
+  accent: '#0071e3',
+  accentHover: '#0077ed',
+  navBg: 'rgba(0, 0, 0, 0.82)',
+  heroBadgeBg: 'transparent',
+  heroBadgeText: '#ff6934',
+  cardShadow: 'none',
+  featureBg: '#161617',
+  featureIconBg: '#2d2d2f',
+  stepBorder: 'transparent',
+  caseBg: '#000000',
+  caseCardBg: '#1d1d1f',
+  ctaOverlay: 'rgba(0, 0, 0, 0.6)',
 };
 
 export interface LandingSectionProps {
@@ -77,3 +102,4 @@ export interface LandingSectionProps {
   c: ThemeColors;
   isDark: boolean;
 }
+

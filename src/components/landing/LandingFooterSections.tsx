@@ -1,10 +1,10 @@
 import React from 'react';
-import { CheckCircle2, ArrowRight, Star, Sparkles, Quote, ShieldCheck } from 'lucide-react';
+import { CheckCircle2, ChevronRight, Star } from 'lucide-react';
 import { motion } from 'motion/react';
 import { t } from '../../i18n';
 import { LandingSectionProps } from './types';
 
-export const LandingCaseStudies: React.FC<LandingSectionProps> = ({ lang, c, isDark }) => {
+export const LandingCaseStudies: React.FC<LandingSectionProps> = ({ lang, isDark }) => {
   const stories = [
     {
       name: 'Tiago Matias',
@@ -37,67 +37,91 @@ export const LandingCaseStudies: React.FC<LandingSectionProps> = ({ lang, c, isD
   ];
 
   return (
-    <section id="case-studies" className="py-24 px-4 sm:px-6 lg:px-8 relative" style={{ background: c.caseBg }}>
-      <div className="max-w-7xl mx-auto">
+    <section
+      id="case-studies"
+      style={{ background: isDark ? '#000000' : '#ffffff' }}
+      className="py-24 sm:py-32 px-4 sm:px-6 lg:px-8 relative"
+    >
+      <div className="max-w-[1200px] mx-auto">
 
+        {/* Section Header */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-center mb-16 space-y-3"
+          className="text-center mb-16 sm:mb-20"
         >
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-blue-500/20 text-xs font-bold uppercase tracking-wider text-blue-600 dark:text-blue-400 bg-blue-500/10">
-            <Star size={13} className="text-amber-500 fill-amber-500" />
-            <span>Casos de Sucesso & Depoimentos</span>
-          </div>
-
-          <h2 className="font-heading text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight" style={{ color: c.text }}>
+          <h2
+            className="font-display font-semibold text-3xl sm:text-4xl lg:text-[56px] leading-[1.07] tracking-[-0.28px] mb-4"
+            style={{ color: isDark ? '#f5f5f7' : '#1d1d1f' }}
+          >
             {t(lang, 'caseTitle')}
           </h2>
-          <p style={{ color: c.textMuted }} className="text-base sm:text-lg max-w-2xl mx-auto leading-relaxed">
+          <p
+            className="text-base sm:text-[21px] leading-[1.38] tracking-[0.007em] max-w-2xl mx-auto font-normal"
+            style={{ color: isDark ? '#a1a1a6' : '#707070' }}
+          >
             {t(lang, 'caseSubtitle')}
           </p>
         </motion.div>
 
+        {/* Stories Cards — 28px radius, #f5f5f7 canvas contrast, zero shadow */}
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {stories.map((story, idx) => (
             <motion.div
               key={idx}
-              initial={{ opacity: 0, y: 25 }}
+              initial={{ opacity: 0, y: 16 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ delay: idx * 0.08, duration: 0.4 }}
-              whileHover={{ y: -6 }}
-              className="rounded-3xl p-7 border transition-all duration-300 flex flex-col justify-between relative group"
+              transition={{ delay: idx * 0.06, duration: 0.4 }}
+              className="apple-card-28 p-8 flex flex-col justify-between"
               style={{
-                background: c.caseCardBg,
-                borderColor: c.border,
-                boxShadow: c.cardShadow
+                background: isDark ? '#161617' : '#f5f5f7',
+                boxShadow: 'none',
               }}
             >
               <div>
-                <div className="flex items-center justify-between mb-4">
+                <div className="flex items-center justify-between mb-6">
                   <img
                     src={`${story.avatar}?s=96`}
                     alt={story.name}
-                    className="w-14 h-14 rounded-2xl object-cover border-2 border-blue-500/30 shadow-md"
+                    className="w-12 h-12 rounded-full object-cover"
                   />
-                  <div className="px-2.5 py-1 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-600 dark:text-emerald-400 text-xs font-bold">
+                  <span
+                    className="text-xs font-semibold px-2.5 py-1 rounded-full numr-data"
+                    style={{
+                      background: isDark ? '#2d2d2f' : '#e8e8ed',
+                      color: isDark ? '#f5f5f7' : '#1d1d1f'
+                    }}
+                  >
                     {story.improvement}
-                  </div>
+                  </span>
                 </div>
 
-                <h3 className="font-heading font-bold text-base" style={{ color: c.text }}>{story.name}</h3>
-                <p className="text-xs font-medium mb-4" style={{ color: c.textMuted }}>{story.subject}</p>
+                <h3
+                  className="font-display font-semibold text-lg tracking-tight mb-1"
+                  style={{ color: isDark ? '#f5f5f7' : '#1d1d1f' }}
+                >
+                  {story.name}
+                </h3>
+                <p
+                  className="text-xs font-normal mb-5"
+                  style={{ color: isDark ? '#86868b' : '#707070' }}
+                >
+                  {story.subject}
+                </p>
 
-                <p className="text-xs sm:text-sm leading-relaxed italic relative" style={{ color: c.text }}>
+                <p
+                  className="text-sm sm:text-[17px] leading-[1.47] tracking-[-0.022em] font-normal text-left"
+                  style={{ color: isDark ? '#f5f5f7' : '#1d1d1f' }}
+                >
                   "{story.quote}"
                 </p>
               </div>
 
-              <div className="flex items-center gap-1 mt-6 text-amber-500">
+              <div className="flex items-center gap-1 mt-6 text-[#1d1d1f] dark:text-[#f5f5f7]">
                 {[...Array(5)].map((_, i) => (
-                  <Star key={i} size={13} className="fill-amber-500" />
+                  <Star key={i} size={13} className="fill-current" />
                 ))}
               </div>
             </motion.div>
@@ -108,29 +132,35 @@ export const LandingCaseStudies: React.FC<LandingSectionProps> = ({ lang, c, isD
   );
 };
 
-export const LandingAbout: React.FC<LandingSectionProps> = ({ lang, c, isDark }) => {
+export const LandingAbout: React.FC<LandingSectionProps> = ({ lang, isDark }) => {
   return (
-    <section id="about" className="py-24 px-4 sm:px-6 lg:px-8 relative" style={{ background: c.bg }}>
-      <div className="max-w-7xl mx-auto">
-        <div className="grid lg:grid-cols-12 gap-12 items-center">
+    <section
+      id="about"
+      style={{ background: isDark ? '#161617' : '#f5f5f7' }}
+      className="py-24 sm:py-32 px-4 sm:px-6 lg:px-8 relative"
+    >
+      <div className="max-w-[1200px] mx-auto">
+        <div className="grid lg:grid-cols-12 gap-12 lg:gap-16 items-center">
 
+          {/* Text Left Column */}
           <motion.div
-            initial={{ opacity: 0, x: -30 }}
-            whileInView={{ opacity: 1, x: 0 }}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
-            className="lg:col-span-7 space-y-6"
+            className="lg:col-span-7 space-y-6 text-left"
           >
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-blue-500/20 text-xs font-bold uppercase tracking-wider text-blue-600 dark:text-blue-400 bg-blue-500/10">
-              <ShieldCheck size={14} />
-              <span>Educação Inclusiva & Bem Público</span>
-            </div>
-
-            <h2 className="font-heading text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight leading-tight" style={{ color: c.text }}>
+            <h2
+              className="font-display font-semibold text-3xl sm:text-4xl lg:text-[56px] leading-[1.07] tracking-[-0.28px]"
+              style={{ color: isDark ? '#f5f5f7' : '#1d1d1f' }}
+            >
               {t(lang, 'aboutTitle')}
             </h2>
 
-            <div className="space-y-4 text-base sm:text-lg leading-relaxed" style={{ color: c.textMuted }}>
+            <div
+              className="space-y-4 text-base sm:text-[17px] leading-[1.47] tracking-[-0.022em] font-normal"
+              style={{ color: isDark ? '#a1a1a6' : '#707070' }}
+            >
               <p>{t(lang, 'aboutP1')}</p>
               <p>{t(lang, 'aboutP2')}</p>
             </div>
@@ -142,15 +172,23 @@ export const LandingAbout: React.FC<LandingSectionProps> = ({ lang, c, isDark })
                   initial={{ opacity: 0, y: 10 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
-                  transition={{ delay: i * 0.08 }}
-                  className="flex items-start gap-3 p-3.5 rounded-2xl border transition-all duration-200"
+                  transition={{ delay: i * 0.05 }}
+                  className="apple-card-28 p-5 flex items-start gap-3.5"
                   style={{
-                    background: isDark ? 'rgba(255,255,255,0.02)' : 'rgba(0,0,0,0.01)',
-                    borderColor: c.border
+                    background: isDark ? '#1d1d1f' : '#ffffff',
+                    boxShadow: 'none',
                   }}
                 >
-                  <CheckCircle2 size={20} className="text-emerald-500 shrink-0 mt-0.5" />
-                  <span className="text-xs sm:text-sm font-semibold leading-snug" style={{ color: c.text }}>
+                  <CheckCircle2
+                    size={20}
+                    strokeWidth={1.5}
+                    className="shrink-0 mt-0.5"
+                    style={{ color: isDark ? '#2997ff' : '#0071e3' }}
+                  />
+                  <span
+                    className="text-sm sm:text-[15px] font-normal leading-snug"
+                    style={{ color: isDark ? '#f5f5f7' : '#1d1d1f' }}
+                  >
                     {item}
                   </span>
                 </motion.div>
@@ -158,16 +196,20 @@ export const LandingAbout: React.FC<LandingSectionProps> = ({ lang, c, isDark })
             </div>
           </motion.div>
 
+          {/* Visual Right Column — 28px border-radius image */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
+            initial={{ opacity: 0, scale: 0.98 }}
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
-            className="lg:col-span-5 relative"
+            className="lg:col-span-5"
           >
-
-            <div>
-              <img src="/aluno.jpg" alt="alunos" className='rounded-2xl' />
+            <div className="rounded-[28px] overflow-hidden">
+              <img
+                src="/aluno.jpg"
+                alt="Educação inclusiva"
+                className="w-full h-full object-cover rounded-[28px] block"
+              />
             </div>
           </motion.div>
 
@@ -177,56 +219,46 @@ export const LandingAbout: React.FC<LandingSectionProps> = ({ lang, c, isDark })
   );
 };
 
-export const LandingCTA: React.FC<LandingSectionProps & { onStartLearning: () => void }> = ({ lang, isDark, onStartLearning }) => {
+export const LandingCTA: React.FC<LandingSectionProps & { onStartLearning: () => void }> = ({
+  lang, isDark, onStartLearning
+}) => {
   return (
-    <section className="py-24 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
-      {/* Background Image & Overlay */}
-      <div
-        className="absolute inset-0 z-0 scale-105"
-        style={{
-          background: `url('/aluno.jpg') center/cover no-repeat`,
-        }}
-      />
-      <div
-        className="absolute inset-0 z-0 backdrop-blur-xs"
-        style={{
-          background: isDark
-            ? 'linear-gradient(135deg, rgba(8,12,20,0.92) 0%, rgba(15,23,42,0.88) 100%)'
-            : 'linear-gradient(135deg, rgba(37,99,235,0.9) 0%, rgba(255, 255, 255, 0) 100%)'
-        }}
-      />
-
+    <section
+      style={{ background: isDark ? '#000000' : '#ffffff' }}
+      className="py-28 sm:py-36 px-4 sm:px-6 lg:px-8 text-center"
+    >
       <motion.div
-        initial={{ opacity: 0, y: 20 }}
+        initial={{ opacity: 0, y: 16 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
-        transition={{ duration: 0.7 }}
-        className="max-w-4xl mx-auto text-center text-white relative z-10 space-y-6"
+        transition={{ duration: 0.6 }}
+        className="max-w-[800px] mx-auto space-y-6"
       >
-        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/15 backdrop-blur-md border border-white/20 text-xs font-bold tracking-wider uppercase">
-          <span>Comece Gratuitamente Agora</span>
-        </div>
-
-        <h2 className="font-heading text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-tight">
+        <h2
+          className="font-display font-semibold sm:font-bold text-4xl sm:text-5xl lg:text-[64px] leading-[1.05] tracking-[-1.2px]"
+          style={{ color: isDark ? '#f5f5f7' : '#1d1d1f' }}
+        >
           {t(lang, 'ctaTitle')}
         </h2>
 
-        <p className="text-base sm:text-xl font-normal opacity-90 max-w-2xl mx-auto leading-relaxed">
+        <p
+          className="text-lg sm:text-[21px] leading-[1.38] tracking-[0.007em] font-normal max-w-2xl mx-auto"
+          style={{ color: isDark ? '#a1a1a6' : '#707070' }}
+        >
           {t(lang, 'ctaDesc')}
         </p>
 
-        <div className="pt-4">
-          <motion.button
-            whileHover={{ scale: 1.04 }}
-            whileTap={{ scale: 0.96 }}
+        {/* Primary CTA button — 980px radius pill button, #0071e3 */}
+        <div className="pt-4 flex flex-col sm:flex-row items-center justify-center gap-4">
+          <button
             onClick={onStartLearning}
-            className="px-9 py-4 bg-white text-blue-600 rounded-2xl font-bold text-sm tracking-wide shadow-2xl hover:shadow-white/20 transition-all inline-flex items-center gap-3 group"
+            className="apple-pill-btn"
           >
             <span>{t(lang, 'ctaBtn')}</span>
-            <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform text-blue-600" />
-          </motion.button>
+          </button>
         </div>
       </motion.div>
     </section>
   );
 };
+

@@ -1,151 +1,119 @@
 import React from 'react';
-import { Volume2, Video, Brain, BookOpen, TrendingUp, Globe, Sparkles, ArrowRight } from 'lucide-react';
+import { Volume2, Video, Brain, BookOpen, TrendingUp, Globe } from 'lucide-react';
 import { motion } from 'motion/react';
 import { t } from '../../i18n';
 import { LandingSectionProps } from './types';
 
-export const LandingFeatures: React.FC<LandingSectionProps> = ({ lang, c, isDark }) => {
-  const gradient = 'linear-gradient(135deg, #2563EB 0%, #6366F1 50%, #2563EB 100%)';
-
+export const LandingFeatures: React.FC<LandingSectionProps> = ({ lang, isDark }) => {
   const features = [
     {
       Icon: Volume2,
       title: t(lang, 'feat1Title'),
       description: t(lang, 'feat1Desc'),
-      color: '#3B82F6',
-      bgLight: '#EFF6FF',
-      bgDark: 'rgba(59, 130, 246, 0.15)'
     },
     {
       Icon: Video,
       title: t(lang, 'feat2Title'),
       description: t(lang, 'feat2Desc'),
-      color: '#F43F5E',
-      bgLight: '#FFF1F2',
-      bgDark: 'rgba(244, 63, 94, 0.15)'
     },
     {
       Icon: Brain,
       title: t(lang, 'feat3Title'),
       description: t(lang, 'feat3Desc'),
-      color: '#8B5CF6',
-      bgLight: '#F5F3FF',
-      bgDark: 'rgba(139, 92, 246, 0.15)'
     },
     {
       Icon: BookOpen,
       title: t(lang, 'feat4Title'),
       description: t(lang, 'feat4Desc'),
-      color: '#10B981',
-      bgLight: '#ECFDF5',
-      bgDark: 'rgba(16, 185, 129, 0.15)'
     },
     {
       Icon: TrendingUp,
       title: t(lang, 'feat5Title'),
       description: t(lang, 'feat5Desc'),
-      color: '#F59E0B',
-      bgLight: '#FFFBEB',
-      bgDark: 'rgba(245, 158, 11, 0.15)'
     },
     {
       Icon: Globe,
       title: t(lang, 'feat6Title'),
       description: t(lang, 'feat6Desc'),
-      color: '#06B6D4',
-      bgLight: '#ECFEFF',
-      bgDark: 'rgba(6, 182, 212, 0.15)'
     },
   ];
 
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: { staggerChildren: 0.08 }
-    }
-  };
-
-  const itemVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.4 } }
-  };
-
   return (
-    <section id="features" className="py-24 px-4 sm:px-6 lg:px-8 relative" style={{ background: c.featureBg }}>
-      <div className="max-w-7xl mx-auto">
+    <section
+      id="features"
+      style={{ background: isDark ? '#000000' : '#ffffff' }}
+      className="py-24 sm:py-32 px-4 sm:px-6 lg:px-8 relative"
+    >
+      <div className="max-w-[1200px] mx-auto">
 
-        {/* Header */}
+        {/* Section Header — 40–56px SF Pro Display weight 600 */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-center mb-16 space-y-4"
+          className="text-center mb-16 sm:mb-20"
         >
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-blue-500/20 text-xs font-bold uppercase tracking-wider text-blue-600 dark:text-blue-400 bg-blue-500/10">
-            <span>Recursos e Inovações</span>
-          </div>
-
-          <h2 className="font-heading text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight">
-            {t(lang, 'featTitle1')}{' '}
-            <span style={{ background: gradient, backgroundClip: 'text', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
-              {t(lang, 'featTitle2')}
-            </span>
+          <h2
+            className="font-display font-semibold text-3xl sm:text-4xl lg:text-[56px] leading-[1.07] tracking-[-0.28px] mb-4"
+            style={{ color: isDark ? '#f5f5f7' : '#1d1d1f' }}
+          >
+            {t(lang, 'featTitle1')} {t(lang, 'featTitle2')}
           </h2>
-          <p style={{ color: c.textMuted }} className="text-base sm:text-lg max-w-2xl mx-auto leading-relaxed">
+          <p
+            className="text-base sm:text-[21px] leading-[1.38] tracking-[0.007em] max-w-2xl mx-auto font-normal"
+            style={{ color: isDark ? '#a1a1a6' : '#707070' }}
+          >
             {t(lang, 'featSubtitle')}
           </p>
         </motion.div>
 
-        {/* Feature Grid */}
-        <motion.div
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "-80px" }}
-          className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6"
-        >
+        {/* Feature Cards — 28px border-radius, background #f5f5f7, zero shadow, no border */}
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {features.map((feature, idx) => (
             <motion.div
               key={idx}
-              variants={itemVariants}
-              whileHover={{ y: -6, transition: { duration: 0.2 } }}
-              className="rounded-3xl p-8 border transition-all duration-300 group relative overflow-hidden"
+              initial={{ opacity: 0, y: 16 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: idx * 0.05, duration: 0.4 }}
+              className="apple-card-28 p-8 sm:p-10 flex flex-col justify-between"
               style={{
-                background: c.bgCard,
-                borderColor: c.border,
-                boxShadow: c.cardShadow
+                background: isDark ? '#161617' : '#f5f5f7',
+                boxShadow: 'none',
               }}
             >
-              {/* Subtle hover corner glow */}
-              <div
-                className="absolute top-0 right-0 w-32 h-32 blur-3xl opacity-0 group-hover:opacity-30 transition-opacity pointer-events-none rounded-full"
-                style={{ background: feature.color }}
-              />
+              <div>
+                <div className="mb-6">
+                  <feature.Icon
+                    size={32}
+                    strokeWidth={1.5}
+                    style={{ color: isDark ? '#f5f5f7' : '#1d1d1f' }}
+                  />
+                </div>
 
-              <div
-                className="w-14 h-14 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300 shadow-sm"
-                style={{ background: isDark ? feature.bgDark : feature.bgLight }}
-              >
-                <feature.Icon size={26} style={{ color: feature.color }} />
+                <h3
+                  className="font-display font-semibold text-xl sm:text-[24px] tracking-tight mb-3 leading-snug"
+                  style={{ color: isDark ? '#f5f5f7' : '#1d1d1f' }}
+                >
+                  {feature.title}
+                </h3>
+
+                <p
+                  className="text-base sm:text-[17px] leading-[1.47] tracking-[-0.022em] font-normal text-left"
+                  style={{ color: isDark ? '#a1a1a6' : '#707070' }}
+                >
+                  {feature.description}
+                </p>
               </div>
-
-              <h3 className="font-heading text-xl font-bold mb-3 tracking-tight" style={{ color: c.text }}>
-                {feature.title}
-              </h3>
-
-              <p style={{ color: c.textMuted }} className="text-sm leading-relaxed">
-                {feature.description}
-              </p>
             </motion.div>
           ))}
-        </motion.div>
+        </div>
       </div>
     </section>
   );
 };
 
-export const LandingHowItWorks: React.FC<LandingSectionProps> = ({ lang, c, isDark }) => {
+export const LandingHowItWorks: React.FC<LandingSectionProps> = ({ lang, isDark }) => {
   const steps = [
     { number: '01', title: t(lang, 'step1Title'), description: t(lang, 'step1Desc') },
     { number: '02', title: t(lang, 'step2Title'), description: t(lang, 'step2Desc') },
@@ -154,56 +122,71 @@ export const LandingHowItWorks: React.FC<LandingSectionProps> = ({ lang, c, isDa
   ];
 
   return (
-    <section id="how-it-works" className="py-24 px-4 sm:px-6 lg:px-8" style={{ background: c.bg }}>
-      <div className="max-w-7xl mx-auto">
+    <section
+      id="how-it-works"
+      style={{ background: isDark ? '#161617' : '#f5f5f7' }}
+      className="py-24 sm:py-32 px-4 sm:px-6 lg:px-8"
+    >
+      <div className="max-w-[1200px] mx-auto">
+
+        {/* Section Header */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-center mb-16 space-y-3"
+          className="text-center mb-16 sm:mb-20"
         >
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-indigo-500/20 text-xs font-bold uppercase tracking-wider text-indigo-600 dark:text-indigo-400 bg-indigo-500/10">
-            <span>Passo a Passo</span>
-          </div>
-          <h2 className="font-heading text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight" style={{ color: c.text }}>
+          <h2
+            className="font-display font-semibold text-3xl sm:text-4xl lg:text-[56px] leading-[1.07] tracking-[-0.28px] mb-4"
+            style={{ color: isDark ? '#f5f5f7' : '#1d1d1f' }}
+          >
             {t(lang, 'howTitle')}
           </h2>
-          <p style={{ color: c.textMuted }} className="text-base sm:text-lg max-w-2xl mx-auto leading-relaxed">
+          <p
+            className="text-base sm:text-[21px] leading-[1.38] tracking-[0.007em] max-w-2xl mx-auto font-normal"
+            style={{ color: isDark ? '#a1a1a6' : '#707070' }}
+          >
             {t(lang, 'howSubtitle')}
           </p>
         </motion.div>
 
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 relative">
+        {/* Step Cards — 28px radius, white surface, zero shadow */}
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {steps.map((step, idx) => (
             <motion.div
               key={idx}
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 16 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ delay: idx * 0.1, duration: 0.4 }}
-              whileHover={{ y: -4 }}
-              className="rounded-3xl p-8 text-left transition-all duration-300 relative border group"
+              transition={{ delay: idx * 0.07, duration: 0.4 }}
+              className="apple-card-28 p-8 sm:p-9 text-left flex flex-col justify-between"
               style={{
-                background: c.bgCard,
-                borderColor: c.stepBorder,
-                boxShadow: c.cardShadow
+                background: isDark ? '#1d1d1f' : '#ffffff',
+                boxShadow: 'none',
               }}
             >
-              <div className="flex items-center justify-between mb-6">
-                <span className="font-heading font-black text-3xl bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
+              <div>
+                <span
+                  className="block font-display font-semibold text-3xl sm:text-4xl mb-6 numr-data"
+                  style={{ color: isDark ? '#86868b' : '#707070' }}
+                >
                   {step.number}
                 </span>
-                <div className="w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                  <ArrowRight size={14} className="text-blue-500" />
-                </div>
-              </div>
 
-              <h3 className="font-heading text-lg font-bold mb-2 tracking-tight" style={{ color: c.text }}>
-                {step.title}
-              </h3>
-              <p style={{ color: c.textMuted }} className="text-xs sm:text-sm leading-relaxed">
-                {step.description}
-              </p>
+                <h3
+                  className="font-display font-semibold text-lg sm:text-[21px] mb-2 tracking-tight leading-snug"
+                  style={{ color: isDark ? '#f5f5f7' : '#1d1d1f' }}
+                >
+                  {step.title}
+                </h3>
+
+                <p
+                  className="text-sm sm:text-[17px] leading-[1.47] tracking-[-0.022em] font-normal"
+                  style={{ color: isDark ? '#a1a1a6' : '#707070' }}
+                >
+                  {step.description}
+                </p>
+              </div>
             </motion.div>
           ))}
         </div>
@@ -211,3 +194,4 @@ export const LandingHowItWorks: React.FC<LandingSectionProps> = ({ lang, c, isDa
     </section>
   );
 };
+

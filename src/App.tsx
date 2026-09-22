@@ -1449,59 +1449,59 @@ export default function TutorScreen({ onBack }: { onBack: () => void }) {
       />
 
       {/* ── Header ─────────────────────────────────────────────────────────── */}
-      <header className={`shrink-0 flex items-center justify-between px-4 md:px-8 h-16 backdrop-blur-xl border-b z-10 shadow-sm shadow-black/5 transition-all duration-500 ${isDark ? 'bg-black/40 border-white/10' : 'bg-white/60 border-white/40'}`}
+      <header className={`shrink-0 flex items-center justify-between px-4 md:px-8 h-14 backdrop-blur-xl border-b z-10 transition-colors duration-200 ${isDark ? 'bg-black/80 border-white/10' : 'bg-white/85 border-[#d6d6d6]'}`}
         style={{
           paddingLeft: 'max(1rem, env(safe-area-inset-left))',
           paddingRight: 'max(1rem, env(safe-area-inset-right))'
         }}>
         <button onClick={onBack}
-          className={`flex items-center gap-3 hover:opacity-80 transition-all active:scale-95 group ${isDark ? 'text-white' : 'text-[#202124]'}`}>
-          <div className={`w-10 h-10 rounded-2xl shadow-sm border flex items-center justify-center group-hover:shadow-md transition-shadow ${isDark ? 'bg-white/10 border-white/20' : 'bg-white border-gray-100'}`}>
-            <img src="./logoGT.png" alt="Logo" className="w-7 h-7" />
+          className={`flex items-center gap-2.5 hover:opacity-80 transition-all active:scale-98 group cursor-pointer ${isDark ? 'text-white' : 'text-[#1d1d1f]'}`}>
+          <div className="w-8 h-8 flex items-center justify-center">
+            <img src="./logoGT.png" alt="Logo" className="w-6 h-6 object-contain" />
           </div>
           <div className="flex flex-col items-start leading-tight">
-            <span className="text-base font-bold tracking-tight">{t(lang, 'chatTutor')}</span>
-            <span className={`text-[10px] font-medium uppercase tracking-wider opacity-60 ${isDark ? 'text-gray-300' : 'text-[#5f6368]'}`}>{t(lang, 'chatStudyEngine')}</span>
+            <span className="font-display font-semibold text-sm tracking-tight">{t(lang, 'chatTutor')}</span>
+            <span className={`text-[10px] font-normal tracking-tight ${isDark ? 'text-[#a1a1a6]' : 'text-[#707070]'}`}>{t(lang, 'chatStudyEngine')}</span>
           </div>
         </button>
 
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2.5">
           {/* Theme Toggle */}
-          <button aria-label={isDark ? 'Use light theme' : 'Use dark theme'} onClick={toggleTheme} className={`p-2 rounded-xl border transition-all active:scale-90 ${isDark ? 'bg-white/5 border-white/10 text-amber-400' : 'bg-white border-gray-200 text-gray-500'}`}>
-            {isDark ? <Sun size={18} /> : <Moon size={18} />}
+          <button aria-label={isDark ? 'Use light theme' : 'Use dark theme'} onClick={toggleTheme} className={`p-1.5 rounded-full transition-colors ${isDark ? 'hover:bg-white/10 text-white' : 'hover:bg-[#e8e8ed] text-[#1d1d1f]'}`}>
+            {isDark ? <Sun size={16} /> : <Moon size={16} />}
           </button>
 
           {/* Language Toggle */}
-          <button onClick={() => setLang(prev => prev === 'en' ? 'pt' : 'en')} className={`px-3 py-2 rounded-xl border transition-all active:scale-90 flex items-center gap-2 text-[11px] font-bold ${isDark ? 'bg-white/5 border-white/10 text-white' : 'bg-white border-gray-200 text-gray-700'}`}>
-            <span className="text-base">{lang === 'en' ? '🇺🇸' : '🇦🇴'}</span>
+          <button onClick={() => setLang(prev => prev === 'en' ? 'pt' : 'en')} className={`px-2.5 py-1 rounded-full text-xs font-normal transition-colors flex items-center gap-1.5 ${isDark ? 'hover:bg-white/10 text-white' : 'hover:bg-[#e8e8ed] text-[#1d1d1f]'}`}>
+            <span className="text-xs">{lang === 'en' ? '🇺🇸' : '🇦🇴'}</span>
             {lang.toUpperCase()}
           </button>
 
           {/* Vision Assist Toggle */}
-          <button onClick={() => setIsVisionAssist(!isVisionAssist)} className={`px-3 py-2 rounded-xl border transition-all active:scale-90 flex items-center gap-2 text-[11px] font-bold ${isVisionAssist ? 'bg-amber-600 text-white border-amber-500 shadow-lg shadow-amber-500/20' : isDark ? 'bg-white/5 border-white/10 text-white' : 'bg-white border-gray-200 text-gray-700'}`}>
-            <Eye size={14} />
+          <button onClick={() => setIsVisionAssist(!isVisionAssist)} className={`px-3 py-1 rounded-full text-xs font-normal transition-colors flex items-center gap-1.5 ${isVisionAssist ? 'bg-[#0071e3] text-white' : isDark ? 'border border-white/20 text-white hover:bg-white/10' : 'border border-[#1d1d1f] text-[#1d1d1f] hover:bg-[#e8e8ed]'}`}>
+            <Eye size={13} />
             {isVisionAssist ? 'VISION ON' : 'VISION OFF'}
           </button>
 
           {/* Messages Toggle */}
-          <button onClick={() => setIsChatVisible(!isChatVisible)} className={`px-3 py-2 rounded-xl border transition-all active:scale-90 flex items-center gap-2 text-[11px] font-bold ${isChatVisible ? 'bg-blue-600 text-white border-blue-500 shadow-lg shadow-blue-500/20' : isDark ? 'bg-white/5 border-white/10 text-white' : 'bg-white border-gray-200 text-gray-700'}`}>
-            <MessageSquare size={14} />
+          <button onClick={() => setIsChatVisible(!isChatVisible)} className={`px-3 py-1 rounded-full text-xs font-normal transition-colors flex items-center gap-1.5 ${isChatVisible ? 'bg-[#0071e3] text-white' : isDark ? 'border border-white/20 text-white hover:bg-white/10' : 'border border-[#1d1d1f] text-[#1d1d1f] hover:bg-[#e8e8ed]'}`}>
+            <MessageSquare size={13} />
             {isChatVisible ? `${t(lang, 'chatMessages').toUpperCase()} ON` : `${t(lang, 'chatMessages').toUpperCase()} OFF`}
           </button>
 
           {/* Guide Toggle */}
-          <button onClick={() => { setGuideStep(0); setShowGuide(true); }} className={`px-3 py-2 rounded-xl border transition-all active:scale-90 flex items-center gap-2 text-[11px] font-bold ${isDark ? 'bg-white/5 border-white/10 text-white hover:bg-white/10' : 'bg-white border-gray-200 text-gray-700 hover:bg-gray-50'}`}>
-            <BookOpen size={14} className="text-blue-500" />
-            {t(lang, 'guideOpenBtn').toUpperCase()}
+          <button onClick={() => { setGuideStep(0); setShowGuide(true); }} className={`px-3 py-1 rounded-full text-xs font-normal transition-colors flex items-center gap-1.5 ${isDark ? 'border border-white/20 text-white hover:bg-white/10' : 'border border-[#d6d6d6] text-[#707070] hover:text-[#1d1d1f] hover:bg-[#e8e8ed]'}`}>
+            <BookOpen size={13} />
+            {t(lang, 'guideOpenBtn')}
           </button>
 
-          <div className={`flex items-center gap-2 px-3 py-1.5 rounded-full text-[11px] font-bold tracking-wide border transition-all duration-500 ${isConnected ? 'bg-green-500/10 text-green-500 border-green-500/30'
-            : isConnecting ? 'bg-amber-500/10 text-amber-500 border-amber-500/30'
-              : isDark ? 'bg-white/5 text-gray-400 border-white/10' : 'bg-gray-100 text-gray-500 border-gray-200'
+          <div className={`flex items-center gap-2 px-3 py-1 rounded-full text-xs font-normal border transition-colors ${isConnected ? 'bg-emerald-500/10 text-emerald-600 border-emerald-500/30'
+            : isConnecting ? 'bg-amber-500/10 text-amber-600 border-amber-500/30'
+              : isDark ? 'border-white/10 text-[#a1a1a6]' : 'border-[#d6d6d6] text-[#707070]'
             }`}>
-            <span className={`w-2 h-2 rounded-full shrink-0 ${isConnected ? 'bg-green-500 animate-pulse shadow-[0_0_8px_rgba(34,197,94,0.6)]'
+            <span className={`w-1.5 h-1.5 rounded-full shrink-0 ${isConnected ? 'bg-emerald-500 animate-pulse'
               : isConnecting ? 'bg-amber-500 animate-pulse'
-                : 'bg-gray-400'
+                : 'bg-[#777779]'
               }`} />
             <span className="hidden sm:inline">{isConnected ? t(lang, 'chatLiveSession') : isConnecting ? t(lang, 'chatConnecting') : t(lang, 'chatDisconnected')}</span>
           </div>

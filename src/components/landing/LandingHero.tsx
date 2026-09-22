@@ -1,181 +1,218 @@
-import React from 'react';
-import { ArrowRight, Brain, Mic, CheckCircle2, Sparkles, BookOpen, Layers } from 'lucide-react';
+import React, { useState } from 'react';
+import { ChevronRight, Brain, Mic, BookOpen, Volume2, Video } from 'lucide-react';
 import { motion } from 'motion/react';
 import { t } from '../../i18n';
-import { LandingSectionProps } from './types';
+import { LandingSectionProps, APPLE_PALETTE } from './types';
 
 interface LandingHeroProps extends LandingSectionProps {
   onStartLearning: () => void;
   scrollToSection: (id: string) => void;
 }
 
+interface ProductFinish {
+  id: string;
+  name: string;
+  hex: string;
+  gradient?: string;
+  accentText: string;
+}
+
 export const LandingHero: React.FC<LandingHeroProps> = ({
   lang, c, isDark, onStartLearning, scrollToSection
 }) => {
-  const gradient = 'linear-gradient(135deg, #2563EB 0%, #000000ff 50%, #ffc400ff 100%)';
+  const finishes: ProductFinish[] = [
+    { id: 'sky', name: 'Sky', hex: APPLE_PALETTE.sky, accentText: '#1d1d1f' },
+    { id: 'citrus', name: 'Citrus', hex: APPLE_PALETTE.citrus, accentText: '#1d1d1f' },
+    { id: 'starlight', name: 'Starlight', hex: APPLE_PALETTE.starlight, accentText: '#1d1d1f' },
+    { id: 'silver', name: 'Silver', hex: APPLE_PALETTE.silver, accentText: '#1d1d1f' },
+    { id: 'blush', name: 'Blush', hex: APPLE_PALETTE.blush, accentText: '#1d1d1f' },
+    { id: 'indigo', name: 'Indigo', hex: APPLE_PALETTE.indigo, accentText: '#ffffff' },
+    { id: 'midnight', name: 'Midnight', hex: APPLE_PALETTE.midnight, accentText: '#ffffff' },
+  ];
+
+  const [selectedFinish, setSelectedFinish] = useState<ProductFinish>(finishes[0]);
 
   return (
-    <section id="home" className="pt-36 pb-24 px-4 sm:px-6 lg:px-8 min-h-[90vh] flex items-center overflow-hidden relative">
-      {/* Background ambient lighting */}
-      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[350px] bg-gradient-to-tr from-blue-500/10 via-indigo-500/10 to-purple-500/10 blur-[120px] rounded-full pointer-events-none -z-10" />
+    <section
+      id="home"
+      style={{ background: isDark ? '#000000' : '#ffffff' }}
+      className="pt-32 sm:pt-40 pb-20 px-4 sm:px-6 lg:px-8 overflow-hidden text-center"
+    >
+      <div className="max-w-[1200px] mx-auto">
 
-      <div className="max-w-7xl mx-auto w-full">
-        <div className="grid lg:grid-cols-12 gap-12 lg:gap-8 items-center">
+        {/* 1. "Nuevo" Badge — Inline text only, no background, #b64400 at 14px weight 500 */}
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="mb-2"
+        >
+          
+        </motion.div>
 
-          {/* Left Hero Content */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, ease: 'easeOut' }}
-            className="lg:col-span-7 space-y-8"
+        {/* 2. Product Name — 17px SF Pro Text centered */}
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.1 }}
+          className="mb-3"
+        >
+          <span
+            style={{ color: isDark ? '#f5f5f7' : '#1d1d1f' }}
+            className="text-[17px] font-normal tracking-[-0.022em]"
           >
-            <div className="space-y-5">
+            Ngola Tutor AI
+          </span>
+        </motion.div>
 
-              {/* Headline */}
-              <h1 className="font-heading text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-[1.15]">
-                {t(lang, 'heroTitle1')}{' '}
-                <span style={{ background: gradient, backgroundClip: 'text', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
-                  {t(lang, 'heroTitle2')}
-                </span>
-              </h1>
-
-              {/* Description */}
-              <p style={{ color: c.textMuted }} className="text-lg sm:text-xl font-normal leading-relaxed max-w-2xl">
-                {t(lang, 'heroDesc')}
-              </p>
-            </div>
-
-            {/* Action Buttons */}
-            <div className="flex flex-col sm:flex-row gap-4 pt-2">
-              <motion.button
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-                onClick={onStartLearning}
-                className="px-8 py-4 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white rounded-2xl font-bold text-sm tracking-wide shadow-xl shadow-blue-500/25 hover:shadow-blue-500/35 flex items-center justify-center gap-3 transition-all duration-300 group"
-              >
-                <span>{t(lang, 'heroBtn1')}</span>
-                <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
-              </motion.button>
-
-              <motion.button
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-                onClick={() => scrollToSection('features')}
-                style={{
-                  border: `1.5px solid ${c.border}`,
-                  color: c.text,
-                  background: isDark ? 'rgba(255,255,255,0.03)' : 'rgba(0,0,0,0.02)'
-                }}
-                className="px-8 py-4 rounded-2xl font-bold text-sm tracking-wide hover:border-blue-500/50 transition-all duration-300 flex items-center justify-center gap-2"
-              >
-                <BookOpen size={17} className="text-blue-500" />
-                <span>{t(lang, 'heroBtn2')}</span>
-              </motion.button>
-            </div>
-
-            {/* Highlighted tags */}
-            <div className="flex flex-wrap items-center gap-6 pt-4 border-t border-slate-200/50 dark:border-slate-800/50">
-              <div className="flex items-center gap-2">
-                <CheckCircle2 size={16} className="text-emerald-500" />
-                <span className="text-xs font-semibold" style={{ color: c.textMuted }}>Avatar em Língua Gestual</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <CheckCircle2 size={16} className="text-emerald-500" />
-                <span className="text-xs font-semibold" style={{ color: c.textMuted }}>Visão Computacional & Audiodescrição</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <CheckCircle2 size={16} className="text-emerald-500" />
-                <span className="text-xs font-semibold" style={{ color: c.textMuted }}>Método Socrático sem Julgamentos</span>
-              </div>
-            </div>
-          </motion.div>
-
-          {/* Right Hero Visual / Interactive Preview */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.8, delay: 0.2, ease: 'easeOut' }}
-            className="lg:col-span-5 relative"
+        {/* 3. Hero Headline — 80–96px SF Pro Display weight 700 with letter-spacing -1.44px */}
+        <motion.div
+          initial={{ opacity: 0, y: 14 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.15 }}
+          className="mb-5 max-w-4xl mx-auto"
+        >
+          <h1
+            style={{ color: isDark ? '#f5f5f7' : '#1d1d1f' }}
+            className="font-display font-semibold sm:font-bold text-5xl sm:text-7xl lg:text-[92px] leading-[1.04] tracking-[-1.44px]"
           >
-            <div className="relative w-full aspect-square max-w-[460px] mx-auto">
+            {lang === 'pt' ? 'A mente que guia a sua.' : 'The mind that guides yours.'}
+          </h1>
+        </motion.div>
 
-              {/* Pulsing Backlight */}
-              <motion.div
-                animate={{
-                  scale: [1, 1.15, 1],
-                  opacity: [0.35, 0.55, 0.35]
-                }}
-                transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut' }}
-                className="absolute -inset-4 bg-gradient-to-tr from-blue-600/30 via-indigo-600/20 to-purple-600/30 blur-2xl rounded-3xl"
+        {/* 4. Subtitle / Supporting paragraph at 21px SF Pro Text */}
+        <motion.div
+          initial={{ opacity: 0, y: 14 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.2 }}
+          className="mb-8 max-w-2xl mx-auto"
+        >
+          <p
+            style={{ color: isDark ? '#a1a1a6' : '#707070' }}
+            className="text-lg sm:text-[21px] leading-[1.38] tracking-[0.007em] font-normal"
+          >
+            {t(lang, 'heroDesc')}
+          </p>
+        </motion.div>
+
+        {/* 5. CTAs — Single chromatic blue pill button & subtle link with arrow */}
+        <motion.div
+          initial={{ opacity: 0, y: 14 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.25 }}
+          className="flex flex-col sm:flex-row items-center justify-center gap-5 mb-4"
+        >
+          {/* Filled Pill Button — 980px radius, #0071e3, 17px SF Pro Text */}
+          <button
+            onClick={onStartLearning}
+            className="apple-pill-btn"
+          >
+            <span>{t(lang, 'heroBtn1')}</span>
+          </button>
+
+          {/* Text Link with Arrow — 17px SF Pro Text in #0066cc */}
+          <button
+            onClick={() => scrollToSection('features')}
+            className="apple-link"
+          >
+            <span>{t(lang, 'heroBtn2')}</span>
+            <ChevronRight size={17} />
+          </button>
+        </motion.div>
+
+        {/* Free educational mention / fine print line (14px) */}
+        <motion.p
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.5, delay: 0.3 }}
+          style={{ color: isDark ? '#86868b' : '#707070' }}
+          className="text-xs sm:text-[14px] tracking-[-0.224px] mb-12"
+        >
+          {lang === 'pt' ? '100% Gratuito. Acessível por voz, visão e língua gestual.' : '100% Free. Accessible with voice, vision and sign language.'}
+        </motion.p>
+
+        {/* 6. Product Finish Swatch Selector (Sky, Citrus, Starlight, Silver, Blush, Indigo, Midnight) */}
+        <motion.div
+          initial={{ opacity: 0, y: 15 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.35 }}
+          className="flex items-center justify-center gap-3 mb-10"
+        >
+          <span
+            style={{ color: isDark ? '#a1a1a6' : '#707070' }}
+            className="text-xs tracking-tight mr-2"
+          >
+            {lang === 'pt' ? 'Acabamento:' : 'Finish:'} <strong className="font-medium text-inherit">{selectedFinish.name}</strong>
+          </span>
+          {finishes.map(f => (
+            <button
+              key={f.id}
+              onClick={() => setSelectedFinish(f)}
+              style={{
+                backgroundColor: f.hex,
+                outlineColor: selectedFinish.id === f.id ? (isDark ? '#2997ff' : '#0071e3') : 'transparent'
+              }}
+              className={`w-6 h-6 sm:w-7 sm:h-7 rounded-full transition-transform duration-200 outline-2 outline-offset-2 cursor-pointer ${
+                selectedFinish.id === f.id ? 'scale-115' : 'hover:scale-110 opacity-90'
+              }`}
+              title={f.name}
+            />
+          ))}
+        </motion.div>
+
+        {/* 7. Product Presentation Showcase — 28px border-radius, ZERO shadow, borderless */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.98 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.8, delay: 0.4 }}
+          className="relative max-w-[1020px] mx-auto rounded-[28px] overflow-hidden transition-colors duration-500"
+          style={{
+            backgroundColor: isDark ? '#161617' : selectedFinish.hex,
+            boxShadow: 'none',
+          }}
+        >
+          <div className="pt-12 px-6 sm:px-12 pb-0 flex flex-col items-center">
+            {/* Top Minimal Info Banner */}
+            <div className="flex flex-wrap items-center justify-center gap-6 mb-8 text-xs font-normal">
+              <span
+                style={{ color: isDark ? '#f5f5f7' : selectedFinish.accentText }}
+                className="inline-flex items-center gap-1.5 opacity-90"
+              >
+                <Mic size={14} /> {lang === 'pt' ? 'Voz Bidirecional' : 'Live Voice'}
+              </span>
+              <span
+                style={{ color: isDark ? '#f5f5f7' : selectedFinish.accentText }}
+                className="inline-flex items-center gap-1.5 opacity-90"
+              >
+                <Video size={14} /> {lang === 'pt' ? 'Visão Computacional' : 'Camera Vision'}
+              </span>
+              <span
+                style={{ color: isDark ? '#f5f5f7' : selectedFinish.accentText }}
+                className="inline-flex items-center gap-1.5 opacity-90"
+              >
+                <BookOpen size={14} /> {lang === 'pt' ? 'Quadro Interativo' : 'Whiteboard'}
+              </span>
+            </div>
+
+            {/* Hardware / Screen Display Container with 28px top radii */}
+            <div
+              className="w-full max-w-[880px] rounded-t-[24px] overflow-hidden border-t border-x border-black/10 dark:border-white/10"
+              style={{
+                backgroundColor: isDark ? '#000000' : '#ffffff',
+                boxShadow: 'none',
+              }}
+            >
+              <img
+                src="/Main.webp"
+                alt="Ngola Tutor Interface"
+                className="w-full h-auto object-cover block"
               />
-
-              {/* Main Image Container */}
-              <div
-                className="absolute inset-0 rounded-3xl overflow-hidden shadow-2xl border"
-                style={{
-                  borderColor: isDark ? 'rgba(255,255,255,0.12)' : 'rgba(0,0,0,0.08)',
-                  background: `url('/Main.webp') center/cover no-repeat`,
-                  opacity: isDark ? 0.88 : 1,
-                }}
-              >
-                <div className="absolute inset-0 bg-gradient-to-t from-slate-950/60 via-transparent to-transparent" />
-              </div>
-
-              {/* Floating Glassmorphic Feature Cards */}
-              {[
-                {
-                  pos: 'top-4 -right-4',
-                  Icon: Brain,
-                  color: '#3B82F6',
-                  bgIcon: isDark ? 'rgba(59, 130, 246, 0.15)' : '#EFF6FF',
-                  title: t(lang, 'cardAI'),
-                  desc: t(lang, 'cardAIDesc'),
-                  delay: 0.6
-                },
-                {
-                  pos: 'bottom-6 -left-6',
-                  Icon: Mic,
-                  color: '#F43F5E',
-                  bgIcon: isDark ? 'rgba(244, 63, 94, 0.15)' : '#FFF1F2',
-                  title: t(lang, 'cardVoice'),
-                  desc: t(lang, 'cardVoiceDesc'),
-                  delay: 0.8
-                },
-                {
-                  pos: 'bottom-1/3 -right-6',
-                  Icon: CheckCircle2,
-                  color: '#10B981',
-                  bgIcon: isDark ? 'rgba(16, 185, 129, 0.15)' : '#ECFDF5',
-                  title: t(lang, 'cardHelp'),
-                  desc: t(lang, 'cardHelpDesc'),
-                  delay: 1.0
-                },
-              ].map((card, i) => (
-                <motion.div
-                  key={i}
-                  initial={{ opacity: 0, y: 15 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: card.delay, duration: 0.5 }}
-                  whileHover={{ y: -4 }}
-                  className={`absolute ${card.pos} w-48 rounded-2xl p-4 shadow-xl backdrop-blur-xl z-10 border transition-all duration-300`}
-                  style={{
-                    background: isDark ? 'rgba(19, 28, 49, 0.85)' : 'rgba(255, 255, 255, 0.92)',
-                    borderColor: isDark ? 'rgba(255,255,255,0.1)' : 'rgba(226, 232, 240, 0.8)'
-                  }}
-                >
-                  <div className="flex items-center gap-2.5 mb-1.5">
-                    <div className="w-8 h-8 rounded-xl flex items-center justify-center shrink-0 shadow-sm" style={{ background: card.bgIcon }}>
-                      <card.Icon size={16} style={{ color: card.color }} />
-                    </div>
-                    <span className="font-heading font-bold text-xs" style={{ color: c.text }}>{card.title}</span>
-                  </div>
-                  <p style={{ color: c.textMuted }} className="text-[11px] leading-relaxed line-clamp-2">{card.desc}</p>
-                </motion.div>
-              ))}
             </div>
-          </motion.div>
-        </div>
+          </div>
+        </motion.div>
+
       </div>
     </section>
   );
 };
+
