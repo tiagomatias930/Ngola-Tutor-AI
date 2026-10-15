@@ -6,8 +6,9 @@ import { LandingFeatures, LandingHowItWorks } from './components/landing/Landing
 import { LandingCaseStudies, LandingAbout, LandingCTA } from './components/landing/LandingFooterSections';
 import { LandingTrust, LandingFAQ } from './components/landing/LandingTrustFAQ';
 import { useTheme } from './contexts/ThemeContext';
-import { Sparkles, ShieldCheck } from 'lucide-react';
+import { ShieldCheck } from 'lucide-react';
 import { TermsAndPrivacyModal } from './components/legal/TermsAndPrivacyModal';
+import './components/landing/landing.css';
 import { getConsentPreferences, startTelemetryHeartbeat } from './utils/telemetryClient';
 
 interface LandingPageProps {
@@ -50,7 +51,7 @@ export function LandingPage({ onStartLearning }: LandingPageProps) {
   const commonProps = { lang, theme, c, isDark };
 
   return (
-    <div style={{ background: c.bg, color: c.text, transition: 'background 0.3s, color 0.3s' }} className="w-full min-h-screen">
+    <div className="sh-landing w-full min-h-screen" data-theme={isDark ? 'dark' : 'light'}>
       <LandingNavbar
         {...commonProps}
         activeNav={activeNav}
@@ -87,75 +88,49 @@ export function LandingPage({ onStartLearning }: LandingPageProps) {
         />
       </main>
 
-      {/* Apple Footer Legal Block (from SKILL.md) */}
-      <footer
-        className="py-12 px-4 sm:px-6 lg:px-8 border-t"
-        style={{
-          background: isDark ? '#161617' : '#f5f5f7',
-          borderColor: isDark ? 'rgba(255,255,255,0.1)' : '#d6d6d6'
-        }}
-      >
-        <div className="max-w-[1200px] mx-auto space-y-6">
-          {/* Fine print notes */}
-          <div
-            className="text-xs leading-[1.33] space-y-2 border-b pb-6"
-            style={{
-              color: isDark ? '#86868b' : '#707070',
-              borderColor: isDark ? 'rgba(255,255,255,0.08)' : '#e8e8ed'
-            }}
-          >
-            <p>
-              1. O Ngola Tutor utiliza modelos de inteligência artificial multimodal para fornecer tutoria socrática adaptativa. As respostas são geradas com salvaguardas pedagógicas e éticas estritas.
-            </p>
-            <p>
-              2. As funcionalidades de visão computacional, audiodescrição e avatar em língua gestual foram concebidas com foco em inclusão e acessibilidade universal (WCAG 2.1 AA).
-            </p>
-          </div>
-
-          <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 text-xs">
-            <div className="flex items-center gap-2">
-              <span className="font-display font-semibold text-sm" style={{ color: isDark ? '#f5f5f7' : '#1d1d1f' }}>
-                Ngola Tutor AI
-              </span>
-              <span style={{ color: isDark ? '#86868b' : '#707070' }}>— Educação e Inclusão Digital</span>
+      <footer className="sh-footer">
+        <div className="sh-wrap py-16">
+          <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
+            <div>
+              <div className="flex items-center gap-2 mb-4">
+                <img src="/logoGT.png" alt="" className="w-6 h-6 object-contain" />
+                <span className="font-semibold text-[17px]">Ngola Tutor AI</span>
+              </div>
+              <p className="text-sm leading-relaxed" style={{ color: 'rgba(255,255,255,.7)' }}>
+                {lang === 'pt' ? 'Educação e inclusão digital com tutoria socrática por IA.' : 'Education and digital inclusion with Socratic AI tutoring.'}
+              </p>
             </div>
-
-            <div className="flex flex-wrap items-center gap-6" style={{ color: isDark ? '#86868b' : '#707070' }}>
-              <button
-                onClick={() => setShowTermsModal(true)}
-                className="text-[#0066cc] dark:text-[#2997ff] hover:underline font-normal flex items-center gap-1 cursor-pointer"
-              >
-                <ShieldCheck size={13} />
-                <span>Termos e Privacidade</span>
-              </button>
-              <a
-                href="#home"
-                onClick={(e) => { e.preventDefault(); scrollToSection('home'); }}
-                className="hover:underline cursor-pointer"
-              >
-                Início
-              </a>
-              <a
-                href="#features"
-                onClick={(e) => { e.preventDefault(); scrollToSection('features'); }}
-                className="hover:underline cursor-pointer"
-              >
-                Recursos
-              </a>
-              <a
-                href="#faq"
-                onClick={(e) => { e.preventDefault(); scrollToSection('faq'); }}
-                className="hover:underline cursor-pointer"
-              >
-                FAQ
-              </a>
+            <div>
+              <h4>{lang === 'pt' ? 'Produto' : 'Product'}</h4>
+              <ul className="space-y-3 p-0 list-none">
+                <li><button type="button" className="sh-ghost" onClick={() => scrollToSection('home')}>{lang === 'pt' ? 'Início' : 'Home'}</button></li>
+                <li><button type="button" className="sh-ghost" onClick={() => scrollToSection('features')}>{lang === 'pt' ? 'Recursos' : 'Features'}</button></li>
+                <li><button type="button" className="sh-ghost" onClick={() => scrollToSection('how-it-works')}>{lang === 'pt' ? 'Como funciona' : 'How it works'}</button></li>
+              </ul>
+            </div>
+            <div>
+              <h4>{lang === 'pt' ? 'Comunidade' : 'Community'}</h4>
+              <ul className="space-y-3 p-0 list-none">
+                <li><button type="button" className="sh-ghost" onClick={() => scrollToSection('case-studies')}>{lang === 'pt' ? 'Histórias' : 'Stories'}</button></li>
+                <li><button type="button" className="sh-ghost" onClick={() => scrollToSection('about')}>{lang === 'pt' ? 'Sobre' : 'About'}</button></li>
+                <li><button type="button" className="sh-ghost" onClick={() => scrollToSection('faq')}>FAQ</button></li>
+              </ul>
+            </div>
+            <div>
+              <h4>Legal</h4>
+              <ul className="space-y-3 p-0 list-none">
+                <li>
+                  <button type="button" className="sh-ghost inline-flex items-center gap-1.5" onClick={() => setShowTermsModal(true)}>
+                    <ShieldCheck size={14} /> {lang === 'pt' ? 'Termos e Privacidade' : 'Terms & Privacy'}
+                  </button>
+                </li>
+              </ul>
             </div>
           </div>
 
-          <div
-            className="text-[12px] leading-[1.33] flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 pt-2"
-            style={{ color: isDark ? '#86868b' : '#707070' }}
-          >
+          <div className="mt-12 pt-6 text-xs leading-relaxed space-y-2" style={{ borderTop: '1px solid rgba(255,255,255,.15)', color: 'rgba(255,255,255,.6)' }}>
+            <p>1. O Ngola Tutor utiliza modelos de inteligência artificial multimodal para fornecer tutoria socrática adaptativa. As respostas são geradas com salvaguardas pedagógicas e éticas estritas.</p>
+            <p>2. As funcionalidades de visão computacional, audiodescrição e intérprete de Libras foram concebidas com foco em inclusão e acessibilidade universal (WCAG 2.1 AA).</p>
           </div>
         </div>
       </footer>

@@ -246,11 +246,43 @@ export class DataStore {
   }
 }
 
-export async function connectDataStore(projectId?: string, allowFallback = true): Promise<DataStore> {
+export interface DataStoreOptions {
+  projectId?: string;
+  credentials?: {project_id?: string; client_email: string; private_key: string};
+  /** Serve from bounded process memory when Firestore is not reachable. */
+  allowFallback: boolean;
+}
+
+const CONNECT_TIMEOUT_MS = 5_000;
+
+/** True when something indicates Firestore credentials can actually be found. */
+function hasAmbientGoogleCredentials(): boolean {
+  return Boolean(
+    process.env.GOOGLE_APPLICATION_CREDENTIALS ||
+      process.env.K_SERVICE || // Cloud Run
+      process.env.GAE_ENV ||
+      process.env.FUNCTION_TARGET
+  );
+}
+
+export async function connectDataStore(options: DataStoreOptions): Promise<DataStore> {
+  const {projectId, credentials, allowFallback} = options;
+  // Without credentials the Firestore client would spend a long time probing
+  // the GCE metadata server (a guaranteed hang on Vercel). Skip it up front.
+  if (!credentials && !hasAmbientGoogleCredentials() && !projectId) {
+    console.warn('No Firestore credentials configured; using bounded in-memory store');
+    return new DataStore(null, allowFallback);
+  }
   try {
-    const db = new Firestore(projectId ? {projectId} : {});
-    await db.collection('telemetry').limit(1).get();
-    return new DataStore(db);
+    const db = new Firestore({
+      ...(credentials ?? projectId ? {projectId: credentials?.project_id ?? projectId} : {}),
+      ...(credentials ? {credentials: {client_email: credentials.client_email, private_key: credentials.private_key}} : {}),
+    });
+    await Promise.race([
+      db.collection('telemetry').limit(1).get(),
+      new Promise((_, reject) => setTimeout(() => reject(new Error('Firestore connect timeout')), CONNECT_TIMEOUT_MS).unref()),
+    ]);
+    return new DataStore(db, allowFallback);
   } catch (error) {
     console.warn(
       allowFallback ? 'Firestore unavailable; using bounded local fallback' : 'Firestore unavailable',
@@ -258,6 +290,14 @@ export async function connectDataStore(projectId?: string, allowFallback = true)
     );
     return new DataStore(null, allowFallback);
   }
+}
+
+export function saveConversation(store: DataStore, sessionId: string, user: string, assistant: string) {
+  const timestamp = new Date().toISOString();
+  return store.appendMessages(sessionId, [
+    {role: 'user', text: user, timestamp, source: 'text'},
+    {role: 'assistant', text: assistant, timestamp, source: 'text'},
+  ]);
 }
 
 export class DataStoreUnavailableError extends Error {

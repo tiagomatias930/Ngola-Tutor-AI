@@ -17,3 +17,14 @@ CURSOR_API_KEY=
 CURSOR_REPO_URL=https://github.com/tiagomatias930/Gemini-Tutor-AI
 CURSOR_REPO_REF=main
 CURSOR_DEFAULT_MODEL=composer-2.5
+
+# ─── Vercel / serverless ─────────────────────────────────────────────────────
+# Set these in Vercel → Project Settings → Environment Variables:
+#   GEMINI_API_KEY   (required)
+#   SESSION_SECRET   (required, >= 32 random chars: `openssl rand -hex 32`)
+#   ADMIN_SECRET     (optional, enables /admin)
+# Optional persistent storage (otherwise an in-memory store is used per instance):
+#   FIREBASE_SERVICE_ACCOUNT = service-account JSON (raw or base64)
+# Set to true to fail instead of falling back to the in-memory store:
+REQUIRE_PERSISTENT_STORE=false
+FIREBASE_SERVICE_ACCOUNT=

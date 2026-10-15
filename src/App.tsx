@@ -8,7 +8,8 @@ import {
 import { useTheme } from './contexts/ThemeContext';
 import { t, type Lang } from './i18n';
 import type { WhiteboardElement } from './components/chat/Whiteboard';
-import { LibrasInterpreter } from './components/avatar/LibrasInterpreter';
+import { SignAvatar } from './components/avatar/SignAvatar';
+import { TilsPanel } from './components/avatar/TilsPanel';
 import { TermsAndPrivacyModal } from './components/legal/TermsAndPrivacyModal';
 import {
   getConsentPreferences, saveOfflineChatBackup,
@@ -76,7 +77,6 @@ const formatFriendlyError = (errorMsg: string, lang: Lang): string => {
 // ─── Constants ────────────────────────────────────────────────────────────────
 
 const Whiteboard = lazy(() => import('./components/chat/Whiteboard').then(module => ({ default: module.Whiteboard })));
-const SignLanguageAvatar = lazy(() => import('./components/avatar/SignLanguageAvatar').then(module => ({ default: module.SignLanguageAvatar })));
 
 // Topics where generating a visual diagram is highly beneficial
 const VISUAL_TOPIC_RE = /\b(explain|how does|what is|describe|show|draw|diagram|illustrate|visualize|cycle|process|system|structure|anatomy|cell|molecule|atom|circuit|photosynthesis|mitosis|meiosis|krebs|dna|protein|evolution|ecosystem|solar system|water cycle|carbon cycle|nitrogen cycle|food chain|neural network|algorithm|data structure|sorting|equation|geometry|triangle|function|derivative|integral|wave|gravity|quantum|thermodynamics|osmosis|diffusion|respiration|digestion|heart|brain|lung|skeleton|muscle|revolution|empire|civilization|volcano|earthquake|plate tectonic|weather|ocean|atmosphere|electromagnetic|newton|einstein|pythagoras|archimedes|map|chart|graph|plot)\b/i;
@@ -1180,7 +1180,7 @@ export default function TutorScreen({ onBack }: { onBack: () => void }) {
     try {
       // Fail before requesting camera/microphone permissions when Live is
       // disabled or the backend is unreachable.
-      await apiFetch('/api/live');
+      await apiFetch('/api/live'); // fail early (before camera/mic prompts) if voice is disabled
       setStatusMessage('Requesting camera & microphone...');
       if (!isCameraOn) await startCamera();
       const audioStream = await navigator.mediaDevices.getUserMedia({ audio: true });
@@ -1575,7 +1575,7 @@ export default function TutorScreen({ onBack }: { onBack: () => void }) {
 
           {/* Avatar (if active) */}
           {isDeafMode && (
-            <div className="h-[300px] lg:h-[350px] animate-in fade-in zoom-in duration-700 shadow-2xl rounded-3xl overflow-hidden border border-indigo-500/30 bg-black/40 backdrop-blur-md relative shrink-0">
+            <div className="h-[380px] lg:h-[440px] animate-in fade-in zoom-in duration-700 shadow-2xl rounded-3xl overflow-hidden border border-indigo-500/30 bg-black/40 backdrop-blur-md relative shrink-0">
               <div className="bg-indigo-600/20 backdrop-blur-md px-4 py-2 flex items-center justify-between border-b border-indigo-500/20">
                 <div className="flex items-center gap-2">
                   <Eye size={14} className="text-indigo-400" />
@@ -1583,9 +1583,7 @@ export default function TutorScreen({ onBack }: { onBack: () => void }) {
                 </div>
               </div>
               <div className="h-[calc(100%-36px)]">
-                <Suspense fallback={<div className="h-full grid place-items-center text-xs text-gray-400">Loading avatar…</div>}>
-                  <SignLanguageAvatar gesture={avatarGesture} />
-                </Suspense>
+                <SignAvatar text={lastAssistantMessage} gesture={avatarGesture} isDark={isDark} />
               </div>
             </div>
           )}
@@ -1686,9 +1684,7 @@ export default function TutorScreen({ onBack }: { onBack: () => void }) {
         {/* Avatar overlay for mobile */}
         {isDeafMode && (
           <div className="absolute top-4 left-4 z-50 w-32 h-44 shadow-2xl animate-in slide-in-from-left-4 duration-500">
-            <Suspense fallback={<div className="h-full grid place-items-center text-xs text-gray-400">Loading avatar…</div>}>
-              <SignLanguageAvatar gesture={avatarGesture} />
-            </Suspense>
+            <SignAvatar text={lastAssistantMessage} gesture={avatarGesture} isDark={isDark} compact />
           </div>
         )}
 
@@ -1899,7 +1895,7 @@ export default function TutorScreen({ onBack }: { onBack: () => void }) {
         </div>
       </div>
       {/* ── TILS — Tradutor e Intérprete de Libras ── */}
-      <LibrasInterpreter
+      <TilsPanel
         isActive={isTILSActive}
         onToggle={() => setIsTILSActive(prev => !prev)}
         lastAssistantMessage={lastAssistantMessage}

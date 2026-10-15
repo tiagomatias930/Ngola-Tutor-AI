@@ -9,7 +9,7 @@ import {
   type GeminiService,
   type TextRequest,
 } from './gemini.js';
-import {studentSessionFromCookie} from './live-proxy.js';
+import {studentSessionFromCookie} from './live/proxy.js';
 import {validateInput} from './safety.js';
 import {buildStudentProfileSupplement, TUTOR_SYSTEM_INSTRUCTION} from './tutor-prompt.js';
 
@@ -21,6 +21,8 @@ const config: AppConfig = {
   corsOrigins: ['https://allowed.example'],
   geminiApiKey: undefined,
   gcpProject: undefined,
+  serverless: false,
+  requirePersistentStore: false,
   geminiTextModel: 'gemini-3.6-flash',
   geminiImageModel: 'gemini-2.5-flash-image',
   geminiTimeoutMs: 100,
@@ -159,7 +161,7 @@ describe('request hardening', () => {
 describe('Gemini behavior and safety', () => {
   it('reports whether live voice is available before requesting device permissions', async () => {
     const {app} = testApp();
-    await request(app).get('/api/live').expect(200, {enabled: true});
+    await request(app).get('/api/live').expect(200, {enabled: true, transport: 'websocket'});
 
     const unavailable: GeminiService = {
       ready: false,

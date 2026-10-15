@@ -1,0 +1,5 @@
+node_modules
+.env
+.env.*
+avatar/node_modules
+docs

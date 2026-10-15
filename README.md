@@ -504,3 +504,20 @@ Este projeto está licenciado sob a Licença MIT - consulte o arquivo [LICENSE](
 
 
 See also the list of [contributors](CONTRIBUTORS.md) who participated in this project.
+## Deploy na Vercel
+
+1. Importe o repositório na Vercel (o `vercel.json` já define build, output e rotas).
+2. Em **Settings → Environment Variables** defina:
+   - `GEMINI_API_KEY` (obrigatória)
+   - `SESSION_SECRET` (≥ 32 caracteres: `openssl rand -hex 32`)
+   - `ADMIN_SECRET` (opcional, habilita `/admin`)
+   - `FIREBASE_SERVICE_ACCOUNT` (opcional: JSON da service account, cru ou base64, para histórico persistente)
+3. Faça o deploy. Verifique `https://<seu-app>.vercel.app/api/ready`.
+
+Notas: a voz ao vivo usa token efêmero do Gemini (a Vercel não suporta WebSocket); sem Firestore o histórico fica em memória por instância; o corpo das requisições é limitado a 4,5 MB pela Vercel.
+
+## Estrutura
+
+- `src/` — frontend React (Vite)
+- `server/` — backend Express: `routes/` (rotas por domínio), `live/` (Gemini Live), `http/` (erros/helpers), `bootstrap.ts` (montagem compartilhada), `index.ts` (Node/Cloud Run), `vercel.ts` (serverless)
+- `api/index.js` — entrada serverless da Vercel

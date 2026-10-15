@@ -1,25 +1,7 @@
-import path from 'node:path';
-import dotenv from 'dotenv';
-import {createApp} from './app.js';
-import {loadConfig} from './config.js';
-import {connectDataStore} from './data-store.js';
-import {ManagedGeminiService} from './gemini.js';
-import {attachLiveProxy} from './live-proxy.js';
-import {TelemetryService} from './telemetry.js';
+import {createRuntime} from './bootstrap.js';
+import {attachLiveProxy} from './live/proxy.js';
 
-dotenv.config({path: path.resolve(process.cwd(), '..', '.env')});
-
-const config = loadConfig();
-const store = await connectDataStore(config.gcpProject, config.nodeEnv !== 'production');
-const telemetry = new TelemetryService(store);
-const gemini = new ManagedGeminiService(config);
-const app = createApp({
-  config,
-  store,
-  telemetry,
-  gemini,
-  staticDirectory: path.resolve(process.cwd(), '..', 'dist'),
-});
+const {app, config, store, telemetry, gemini} = await createRuntime({serveStatic: true});
 
 const server = app.listen(config.port, () => {
   console.log(

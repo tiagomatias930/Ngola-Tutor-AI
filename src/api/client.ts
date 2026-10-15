@@ -95,6 +95,117 @@ type LiveServerEnvelope =
   | {type: 'error'; error?: {code?: string; message?: string}};
 
 export async function connectLiveSession(options: LiveSessionOptions): Promise<LiveSessionAdapter> {
+  // Serverless hosts (Vercel) cannot upgrade to WebSocket, so the backend tells
+  // us whether to use its proxy or a short-lived token for a direct connection.
+  const probe = await apiJson<{enabled: boolean; transport?: 'websocket' | 'token'}>('/api/live');
+  return probe.transport === 'token'
+    ? connectWithToken(options)
+    : connectWithProxy(options);
+}
+
+interface LiveTokenResponse {
+  token: string;
+  model: string;
+  apiVersion: string;
+}
+
+async function connectWithToken(options: LiveSessionOptions): Promise<LiveSessionAdapter> {
+  const grant = await apiJson<LiveTokenResponse>('/api/live/token', {
+    method: 'POST',
+    body: JSON.stringify({
+      context: options.context,
+      memory: options.memory,
+      history: options.history?.slice(-12),
+    }),
+  });
+  // Loaded lazily: the SDK is only needed once a voice session starts.
+  const {GoogleGenAI} = await import('@google/genai');
+  const ai = new GoogleGenAI({apiKey: grant.token, httpOptions: {apiVersion: grant.apiVersion}});
+
+  return await new Promise<LiveSessionAdapter>((resolve, reject) => {
+    let settled = false;
+    let manuallyClosed = false;
+    let session: Awaited<ReturnType<typeof ai.live.connect>> | undefined;
+
+    const timeout = window.setTimeout(() => {
+      fail(new ApiError('The live tutor took too long to connect.', 504, 'LIVE_CONNECT_TIMEOUT'));
+      session?.close();
+    }, 15_000);
+    const fail = (error: ApiError) => {
+      if (settled) return;
+      settled = true;
+      window.clearTimeout(timeout);
+      reject(error);
+    };
+
+    ai.live.connect({
+      model: grant.model,
+      // Model and configuration are locked into the token by the backend.
+      config: {},
+      callbacks: {
+        onmessage: message => {
+          if (message.setupComplete) {
+            if (settled || !session) return;
+            if (options.history?.length) {
+              session.sendClientContent({
+                turns: options.history.slice(-12).map(entry => ({
+                  role: entry.role === 'assistant' ? 'model' : 'user',
+                  parts: [{text: entry.text}],
+                })),
+                turnComplete: false,
+              });
+            }
+            settled = true;
+            window.clearTimeout(timeout);
+            resolve({
+              close() {
+                manuallyClosed = true;
+                session?.close();
+              },
+              sendRealtimeInput(input: unknown) {
+                const media = (input as {media?: unknown})?.media;
+                session!.sendRealtimeInput({media: media as never});
+              },
+            });
+            options.callbacks.onopen?.();
+            return;
+          }
+          options.callbacks.onmessage(message);
+        },
+        onerror: event => {
+          const error = new ApiError(
+            event.message || 'The live tutor encountered an error.',
+            503,
+            'LIVE_PROVIDER_ERROR',
+          );
+          options.callbacks.onerror?.(error);
+          fail(error);
+        },
+        onclose: event => {
+          window.clearTimeout(timeout);
+          if (!settled) {
+            fail(new ApiError('The live tutor is unavailable. Please try again.', 503, 'LIVE_UNAVAILABLE'));
+            return;
+          }
+          if (manuallyClosed || settled) options.callbacks.onclose?.(event);
+        },
+      },
+    }).then(
+      connected => {
+        session = connected;
+        if (settled) connected.close();
+      },
+      cause => fail(new ApiError(
+        cause instanceof Error ? cause.message : 'Unable to connect to the live tutor.',
+        503,
+        'LIVE_CONNECTION_ERROR',
+        cause,
+      )),
+    );
+  });
+}
+
+async function connectWithProxy(options: LiveSessionOptions): Promise<LiveSessionAdapter> {
   const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
   const socket = new WebSocket(`${protocol}//${window.location.host}/api/live`);
   let ready = false;
