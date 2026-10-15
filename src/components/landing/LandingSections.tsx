@@ -1,122 +1,109 @@
 import React from 'react';
-import { VolumeUp, Videocam, Psychology, MenuBook, TrendingUp, Public } from '@mui/icons-material';
+import { Volume2, Video, Brain, BookOpen, TrendingUp, Globe } from 'lucide-react';
 import { motion } from 'motion/react';
 import { t } from '../../i18n';
 import { LandingSectionProps } from './types';
 
-export const LandingFeatures: React.FC<LandingSectionProps> = ({ lang, c }) => {
-  const gradient = 'linear-gradient(to right, #4285f4, #ea4335, #fbbc05, #34a853)';
+export const LandingFeatures: React.FC<LandingSectionProps> = ({ lang, isDark }) => {
   const features = [
-    { Icon: VolumeUp, title: t(lang, 'feat1Title'), description: t(lang, 'feat1Desc') },
-    { Icon: Videocam, title: t(lang, 'feat2Title'), description: t(lang, 'feat2Desc') },
-    { Icon: Psychology, title: t(lang, 'feat3Title'), description: t(lang, 'feat3Desc') },
-    { Icon: MenuBook, title: t(lang, 'feat4Title'), description: t(lang, 'feat4Desc') },
-    { Icon: TrendingUp, title: t(lang, 'feat5Title'), description: t(lang, 'feat5Desc') },
-    { Icon: Public, title: t(lang, 'feat6Title'), description: t(lang, 'feat6Desc') },
+    {
+      Icon: Volume2,
+      title: t(lang, 'feat1Title'),
+      description: t(lang, 'feat1Desc'),
+    },
+    {
+      Icon: Video,
+      title: t(lang, 'feat2Title'),
+      description: t(lang, 'feat2Desc'),
+    },
+    {
+      Icon: Brain,
+      title: t(lang, 'feat3Title'),
+      description: t(lang, 'feat3Desc'),
+    },
+    {
+      Icon: BookOpen,
+      title: t(lang, 'feat4Title'),
+      description: t(lang, 'feat4Desc'),
+    },
+    {
+      Icon: TrendingUp,
+      title: t(lang, 'feat5Title'),
+      description: t(lang, 'feat5Desc'),
+    },
+    {
+      Icon: Globe,
+      title: t(lang, 'feat6Title'),
+      description: t(lang, 'feat6Desc'),
+    },
   ];
 
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1
-      }
-    }
-  };
-
-  const itemVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.5 } }
-  };
-
   return (
-    <section id="features" className="py-20 px-4 sm:px-6 lg:px-8" style={{ background: c.featureBg }}>
-      <div className="max-w-7xl mx-auto">
-        <motion.div 
-          initial={{ opacity: 0, y: 20 }}
+    <section
+      id="features"
+      style={{ background: isDark ? '#000000' : '#ffffff' }}
+      className="py-24 sm:py-32 px-4 sm:px-6 lg:px-8 relative"
+    >
+      <div className="max-w-[1200px] mx-auto">
+
+        {/* Section Header — 40–56px SF Pro Display weight 600 */}
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-center mb-16"
+          className="text-center mb-16 sm:mb-20"
         >
-          <h2 className="text-4xl lg:text-5xl font-bold mb-4">
-            {t(lang, 'featTitle1')}
-            <span style={{ background: gradient, backgroundClip: 'text', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
-              {t(lang, 'featTitle2')}
-            </span>
+          <h2
+            className="font-display font-semibold text-3xl sm:text-4xl lg:text-[56px] leading-[1.07] tracking-[-0.28px] mb-4"
+            style={{ color: isDark ? '#f5f5f7' : '#1d1d1f' }}
+          >
+            {t(lang, 'featTitle1')} {t(lang, 'featTitle2')}
           </h2>
-          <p style={{ color: c.textMuted }} className="text-xl max-w-2xl mx-auto">{t(lang, 'featSubtitle')}</p>
+          <p
+            className="text-base sm:text-[21px] leading-[1.38] tracking-[0.007em] max-w-2xl mx-auto font-normal"
+            style={{ color: isDark ? '#a1a1a6' : '#707070' }}
+          >
+            {t(lang, 'featSubtitle')}
+          </p>
         </motion.div>
-        <motion.div 
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "-100px" }}
-          className="grid md:grid-cols-2 lg:grid-cols-3 gap-8"
-        >
+
+        {/* Feature Cards — 28px border-radius, background #f5f5f7, zero shadow, no border */}
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {features.map((feature, idx) => (
-            <motion.div 
-              key={idx} 
-              variants={itemVariants}
-              whileHover={{ y: -10, transition: { duration: 0.2 } }}
-              className="rounded-2xl p-8 hover:shadow-lg transition group cursor-pointer"
-              style={{ background: c.bgCard }}
-            >
-              <div className="w-14 h-14 rounded-lg flex items-center justify-center mb-4 group-hover:scale-110 transition"
-                style={{ background: c.featureIconBg }}>
-                <feature.Icon sx={{ fontSize: 28, color: c.accent }} />
-              </div>
-              <h3 className="text-xl font-bold mb-3">{feature.title}</h3>
-              <p style={{ color: c.textMuted }}>{feature.description}</p>
-            </motion.div>
-          ))}
-        </motion.div>
-      </div>
-    </section>
-  );
-};
-
-export const LandingHowItWorks: React.FC<LandingSectionProps> = ({ lang, c }) => {
-  const steps = [
-    { number: '1', title: t(lang, 'step1Title'), description: t(lang, 'step1Desc') },
-    { number: '2', title: t(lang, 'step2Title'), description: t(lang, 'step2Desc') },
-    { number: '3', title: t(lang, 'step3Title'), description: t(lang, 'step3Desc') },
-    { number: '4', title: t(lang, 'step4Title'), description: t(lang, 'step4Desc') },
-  ];
-
-  return (
-    <section id="how-it-works" className="py-20 px-4 sm:px-6 lg:px-8" style={{ background: c.bg }}>
-      <div className="max-w-7xl mx-auto">
-        <motion.div 
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="text-center mb-16"
-        >
-          <h2 className="text-4xl lg:text-5xl font-bold mb-4">{t(lang, 'howTitle')}</h2>
-          <p style={{ color: c.textMuted }} className="text-xl">{t(lang, 'howSubtitle')}</p>
-        </motion.div>
-        <div className="grid md:grid-cols-4 gap-8">
-          {steps.map((step, idx) => (
-            <motion.div 
-              key={idx} 
-              initial={{ opacity: 0, scale: 0.9 }}
-              whileInView={{ opacity: 1, scale: 1 }}
+            <motion.div
+              key={idx}
+              initial={{ opacity: 0, y: 16 }}
+              whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ delay: idx * 0.1, duration: 0.5 }}
-              className="relative"
+              transition={{ delay: idx * 0.05, duration: 0.4 }}
+              className="apple-card-28 p-8 sm:p-10 flex flex-col justify-between"
+              style={{
+                background: isDark ? '#161617' : '#f5f5f7',
+                boxShadow: 'none',
+              }}
             >
-              {idx < 3 && (
-                <div className="hidden md:block absolute top-1/4 left-full w-full h-1 transform -translate-y-1/2"
-                  style={{ background: `linear-gradient(to right, ${c.accent}, transparent)` }} />
-              )}
-              <div className="rounded-2xl p-8 text-center transition"
-                style={{ background: c.bgCard, border: `2px solid ${c.stepBorder}`, transition: 'all 0.3s' }}>
-                <div className="w-16 h-16 bg-gradient-to-br from-blue-600 to-purple-600 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <span className="text-2xl font-bold text-white">{step.number}</span>
+              <div>
+                <div className="mb-6">
+                  <feature.Icon
+                    size={32}
+                    strokeWidth={1.5}
+                    style={{ color: isDark ? '#f5f5f7' : '#1d1d1f' }}
+                  />
                 </div>
-                <h3 className="text-xl font-bold mb-2">{step.title}</h3>
-                <p style={{ color: c.textMuted }}>{step.description}</p>
+
+                <h3
+                  className="font-display font-semibold text-xl sm:text-[24px] tracking-tight mb-3 leading-snug"
+                  style={{ color: isDark ? '#f5f5f7' : '#1d1d1f' }}
+                >
+                  {feature.title}
+                </h3>
+
+                <p
+                  className="text-base sm:text-[17px] leading-[1.47] tracking-[-0.022em] font-normal text-left"
+                  style={{ color: isDark ? '#a1a1a6' : '#707070' }}
+                >
+                  {feature.description}
+                </p>
               </div>
             </motion.div>
           ))}
@@ -125,3 +112,86 @@ export const LandingHowItWorks: React.FC<LandingSectionProps> = ({ lang, c }) =>
     </section>
   );
 };
+
+export const LandingHowItWorks: React.FC<LandingSectionProps> = ({ lang, isDark }) => {
+  const steps = [
+    { number: '01', title: t(lang, 'step1Title'), description: t(lang, 'step1Desc') },
+    { number: '02', title: t(lang, 'step2Title'), description: t(lang, 'step2Desc') },
+    { number: '03', title: t(lang, 'step3Title'), description: t(lang, 'step3Desc') },
+    { number: '04', title: t(lang, 'step4Title'), description: t(lang, 'step4Desc') },
+  ];
+
+  return (
+    <section
+      id="how-it-works"
+      style={{ background: isDark ? '#161617' : '#f5f5f7' }}
+      className="py-24 sm:py-32 px-4 sm:px-6 lg:px-8"
+    >
+      <div className="max-w-[1200px] mx-auto">
+
+        {/* Section Header */}
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="text-center mb-16 sm:mb-20"
+        >
+          <h2
+            className="font-display font-semibold text-3xl sm:text-4xl lg:text-[56px] leading-[1.07] tracking-[-0.28px] mb-4"
+            style={{ color: isDark ? '#f5f5f7' : '#1d1d1f' }}
+          >
+            {t(lang, 'howTitle')}
+          </h2>
+          <p
+            className="text-base sm:text-[21px] leading-[1.38] tracking-[0.007em] max-w-2xl mx-auto font-normal"
+            style={{ color: isDark ? '#a1a1a6' : '#707070' }}
+          >
+            {t(lang, 'howSubtitle')}
+          </p>
+        </motion.div>
+
+        {/* Step Cards — 28px radius, white surface, zero shadow */}
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          {steps.map((step, idx) => (
+            <motion.div
+              key={idx}
+              initial={{ opacity: 0, y: 16 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: idx * 0.07, duration: 0.4 }}
+              className="apple-card-28 p-8 sm:p-9 text-left flex flex-col justify-between"
+              style={{
+                background: isDark ? '#1d1d1f' : '#ffffff',
+                boxShadow: 'none',
+              }}
+            >
+              <div>
+                <span
+                  className="block font-display font-semibold text-3xl sm:text-4xl mb-6 numr-data"
+                  style={{ color: isDark ? '#86868b' : '#707070' }}
+                >
+                  {step.number}
+                </span>
+
+                <h3
+                  className="font-display font-semibold text-lg sm:text-[21px] mb-2 tracking-tight leading-snug"
+                  style={{ color: isDark ? '#f5f5f7' : '#1d1d1f' }}
+                >
+                  {step.title}
+                </h3>
+
+                <p
+                  className="text-sm sm:text-[17px] leading-[1.47] tracking-[-0.022em] font-normal"
+                  style={{ color: isDark ? '#a1a1a6' : '#707070' }}
+                >
+                  {step.description}
+                </p>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+};
+

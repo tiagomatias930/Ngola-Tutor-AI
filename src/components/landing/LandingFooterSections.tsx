@@ -1,63 +1,129 @@
 import React from 'react';
-import { CheckCircle, ArrowForward } from '@mui/icons-material';
+import { CheckCircle2, ChevronRight, Star } from 'lucide-react';
 import { motion } from 'motion/react';
 import { t } from '../../i18n';
 import { LandingSectionProps } from './types';
 
-export const LandingCaseStudies: React.FC<LandingSectionProps> = ({ lang, c, isDark }) => {
+export const LandingCaseStudies: React.FC<LandingSectionProps> = ({ lang, isDark }) => {
   const stories = [
     {
-      name: 'Tiago Matias', subject: 'Full Stack Development', improvement: '+85%',
-      quote: lang === 'pt' ? 'Ngola Tutor ajudou tremendamente no meu aprendizado em desenvolvimento. Excelente ferramenta!' : 'Ngola Tutor tremendously helped my learning in development. Excellent tool!',
+      name: 'Tiago Matias',
+      subject: 'Desenvolvimento Full Stack',
+      improvement: '+85%',
+      quote: lang === 'pt' ? 'O Ngola Tutor revolucionou a forma como compreendo algoritmos e arquitetura de software.' : 'Ngola Tutor revolutionized how I understand algorithms and software architecture.',
       avatar: 'https://avatars.githubusercontent.com/u/35434705'
     },
     {
-      name: 'Tatiana', subject: 'Web Development', improvement: '+70%',
-      quote: lang === 'pt' ? 'A qualidade das explicações é impressionante. Finalmente entendi conceitos complexos de forma clara.' : 'The quality of explanations is impressive. I finally understood complex concepts clearly.',
+      name: 'Tatiana',
+      subject: 'Desenvolvimento Web',
+      improvement: '+70%',
+      quote: lang === 'pt' ? 'A paciência do tutor e o quadro interativo tornam conceitos difíceis super claros e visuais.' : 'The tutor’s patience and the interactive whiteboard make difficult concepts super clear and visual.',
       avatar: 'https://avatars.githubusercontent.com/u/78913806'
     },
     {
-      name: 'Manuel', subject: 'Software Engineering', improvement: '+75%',
-      quote: lang === 'pt' ? 'Com o Ngola Tutor consegui melhorar meu código e entender design patterns muito melhor.' : 'With Ngola Tutor I improved my code and understood design patterns much better.',
+      name: 'Manuel',
+      subject: 'Engenharia de Software',
+      improvement: '+75%',
+      quote: lang === 'pt' ? 'Com o suporte socrático aprendi a deduzir a resposta sozinho sem ficar dependente de soluções prontas.' : 'With the Socratic support I learned to deduce answers by myself without relying on ready-made solutions.',
       avatar: 'https://avatars.githubusercontent.com/u/45087017'
     },
     {
-      name: 'Iacene', subject: 'Computer Science', improvement: '+80%',
-      quote: lang === 'pt' ? 'Essa é a melhor ferramenta de aprendizado que já experimentei. Altamente recomendado!' : 'This is the best learning tool I have ever tried. Highly recommended!',
+      name: 'Iacene',
+      subject: 'Ciência da Computação',
+      improvement: '+80%',
+      quote: lang === 'pt' ? 'Os recursos de acessibilidade e o diálogo por voz colocam a plataforma em outro patamar de inclusão.' : 'The accessibility features and voice dialogue place the platform on another level of inclusion.',
       avatar: 'https://avatars.githubusercontent.com/u/52156325'
     },
   ];
 
   return (
-    <section id="case-studies" className="py-20 px-4 sm:px-6 lg:px-8" style={{ background: c.caseBg }}>
-      <div className="max-w-7xl mx-auto">
-        <motion.div 
-          initial={{ opacity: 0, y: 20 }}
+    <section
+      id="case-studies"
+      style={{ background: isDark ? '#000000' : '#ffffff' }}
+      className="py-24 sm:py-32 px-4 sm:px-6 lg:px-8 relative"
+    >
+      <div className="max-w-[1200px] mx-auto">
+
+        {/* Section Header */}
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-center mb-16"
+          className="text-center mb-16 sm:mb-20"
         >
-          <h2 className="text-4xl lg:text-5xl font-bold mb-4">{t(lang, 'caseTitle')}</h2>
-          <p style={{ color: c.textMuted }} className="text-xl">{t(lang, 'caseSubtitle')}</p>
+          <h2
+            className="font-display font-semibold text-3xl sm:text-4xl lg:text-[56px] leading-[1.07] tracking-[-0.28px] mb-4"
+            style={{ color: isDark ? '#f5f5f7' : '#1d1d1f' }}
+          >
+            {t(lang, 'caseTitle')}
+          </h2>
+          <p
+            className="text-base sm:text-[21px] leading-[1.38] tracking-[0.007em] max-w-2xl mx-auto font-normal"
+            style={{ color: isDark ? '#a1a1a6' : '#707070' }}
+          >
+            {t(lang, 'caseSubtitle')}
+          </p>
         </motion.div>
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+
+        {/* Stories Cards — 28px radius, #f5f5f7 canvas contrast, zero shadow */}
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {stories.map((story, idx) => (
-            <motion.div 
-              key={idx} 
-              initial={{ opacity: 0, y: 30 }}
+            <motion.div
+              key={idx}
+              initial={{ opacity: 0, y: 16 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ delay: idx * 0.1, duration: 0.5 }}
-              whileHover={{ y: -5 }}
-              className="rounded-2xl p-8 hover:shadow-lg transition"
-              style={{ background: c.caseCardBg, boxShadow: isDark ? '0 1px 3px rgba(0,0,0,0.3)' : '0 1px 3px rgba(0,0,0,0.06)' }}
+              transition={{ delay: idx * 0.06, duration: 0.4 }}
+              className="apple-card-28 p-8 flex flex-col justify-between"
+              style={{
+                background: isDark ? '#161617' : '#f5f5f7',
+                boxShadow: 'none',
+              }}
             >
-              <img src={`${story.avatar}?s=80`} alt={story.name}
-                className="w-16 h-16 rounded-full mb-4 object-cover" style={{ border: `2px solid ${c.border}` }} />
-              <div className="text-3xl font-bold mb-2" style={{ color: c.accent }}>{story.improvement}</div>
-              <p className="font-semibold mb-1">{story.name}</p>
-              <p className="text-sm mb-4" style={{ color: c.textMuted }}>{story.subject}</p>
-              <p className="italic text-sm" style={{ color: c.text }}>"{story.quote}"</p>
+              <div>
+                <div className="flex items-center justify-between mb-6">
+                  <img
+                    src={`${story.avatar}?s=96`}
+                    alt={story.name}
+                    className="w-12 h-12 rounded-full object-cover"
+                  />
+                  <span
+                    className="text-xs font-semibold px-2.5 py-1 rounded-full numr-data"
+                    style={{
+                      background: isDark ? '#2d2d2f' : '#e8e8ed',
+                      color: isDark ? '#f5f5f7' : '#1d1d1f'
+                    }}
+                  >
+                    {story.improvement}
+                  </span>
+                </div>
+
+                <h3
+                  className="font-display font-semibold text-lg tracking-tight mb-1"
+                  style={{ color: isDark ? '#f5f5f7' : '#1d1d1f' }}
+                >
+                  {story.name}
+                </h3>
+                <p
+                  className="text-xs font-normal mb-5"
+                  style={{ color: isDark ? '#86868b' : '#707070' }}
+                >
+                  {story.subject}
+                </p>
+
+                <p
+                  className="text-sm sm:text-[17px] leading-[1.47] tracking-[-0.022em] font-normal text-left"
+                  style={{ color: isDark ? '#f5f5f7' : '#1d1d1f' }}
+                >
+                  "{story.quote}"
+                </p>
+              </div>
+
+              <div className="flex items-center gap-1 mt-6 text-[#1d1d1f] dark:text-[#f5f5f7]">
+                {[...Array(5)].map((_, i) => (
+                  <Star key={i} size={13} className="fill-current" />
+                ))}
+              </div>
             </motion.div>
           ))}
         </div>
@@ -66,67 +132,133 @@ export const LandingCaseStudies: React.FC<LandingSectionProps> = ({ lang, c, isD
   );
 };
 
-export const LandingAbout: React.FC<LandingSectionProps> = ({ lang, c }) => {
+export const LandingAbout: React.FC<LandingSectionProps> = ({ lang, isDark }) => {
   return (
-    <section id="about" className="py-20 px-4 sm:px-6 lg:px-8" style={{ background: c.bg }}>
-      <div className="max-w-7xl mx-auto">
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
-          <motion.div 
-            initial={{ opacity: 0, x: -30 }}
-            whileInView={{ opacity: 1, x: 0 }}
+    <section
+      id="about"
+      style={{ background: isDark ? '#161617' : '#f5f5f7' }}
+      className="py-24 sm:py-32 px-4 sm:px-6 lg:px-8 relative"
+    >
+      <div className="max-w-[1200px] mx-auto">
+        <div className="grid lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+
+          {/* Text Left Column */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
+            className="lg:col-span-7 space-y-6 text-left"
           >
-            <h2 className="text-4xl lg:text-5xl font-bold mb-6">{t(lang, 'aboutTitle')}</h2>
-            <div className="space-y-6">
+            <h2
+              className="font-display font-semibold text-3xl sm:text-4xl lg:text-[56px] leading-[1.07] tracking-[-0.28px]"
+              style={{ color: isDark ? '#f5f5f7' : '#1d1d1f' }}
+            >
+              {t(lang, 'aboutTitle')}
+            </h2>
+
+            <div
+              className="space-y-4 text-base sm:text-[17px] leading-[1.47] tracking-[-0.022em] font-normal"
+              style={{ color: isDark ? '#a1a1a6' : '#707070' }}
+            >
               <p>{t(lang, 'aboutP1')}</p>
               <p>{t(lang, 'aboutP2')}</p>
-              <div className="space-y-3">
-                {[t(lang, 'aboutItem1'), t(lang, 'aboutItem2'), t(lang, 'aboutItem3'), t(lang, 'aboutItem4')].map((item, i) => (
-                  <motion.div 
-                    key={i} 
-                    initial={{ opacity: 0, x: -20 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: i * 0.1 }}
-                    className="flex items-start gap-3"
+            </div>
+
+            <div className="grid sm:grid-cols-2 gap-4 pt-4">
+              {[t(lang, 'aboutItem1'), t(lang, 'aboutItem2'), t(lang, 'aboutItem3'), t(lang, 'aboutItem4')].map((item, i) => (
+                <motion.div
+                  key={i}
+                  initial={{ opacity: 0, y: 10 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: i * 0.05 }}
+                  className="apple-card-28 p-5 flex items-start gap-3.5"
+                  style={{
+                    background: isDark ? '#1d1d1f' : '#ffffff',
+                    boxShadow: 'none',
+                  }}
+                >
+                  <CheckCircle2
+                    size={20}
+                    strokeWidth={1.5}
+                    className="shrink-0 mt-0.5"
+                    style={{ color: isDark ? '#2997ff' : '#0071e3' }}
+                  />
+                  <span
+                    className="text-sm sm:text-[15px] font-normal leading-snug"
+                    style={{ color: isDark ? '#f5f5f7' : '#1d1d1f' }}
                   >
-                    <CheckCircle sx={{ fontSize: 24, color: '#188038', flexShrink: 0, marginTop: '2px' }} />
-                    <span>{item}</span>
-                  </motion.div>
-                ))}
-              </div>
+                    {item}
+                  </span>
+                </motion.div>
+              ))}
             </div>
           </motion.div>
+
+          {/* Visual Right Column — 28px border-radius image */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.98 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="lg:col-span-5"
+          >
+            <div className="rounded-[28px] overflow-hidden">
+              <img
+                src="/aluno.jpg"
+                alt="Educação inclusiva"
+                className="w-full h-full object-cover rounded-[28px] block"
+              />
+            </div>
+          </motion.div>
+
         </div>
       </div>
     </section>
   );
 };
 
-export const LandingCTA: React.FC<LandingSectionProps & { onStartLearning: () => void }> = ({ lang, isDark, onStartLearning }) => {
+export const LandingCTA: React.FC<LandingSectionProps & { onStartLearning: () => void }> = ({
+  lang, isDark, onStartLearning
+}) => {
   return (
-    <section className="py-20 px-4 sm:px-6 lg:px-8 relative overflow-hidden" style={{ background: `url('/aluno.jpg') center/cover no-repeat` }}>
-      <div className="absolute inset-0" style={{ background: isDark ? 'rgba(0,0,0,0.75)' : 'rgba(0,0,0,0.3)' }} />
-      <motion.div 
-        initial={{ opacity: 0, scale: 0.95 }}
-        whileInView={{ opacity: 1, scale: 1 }}
+    <section
+      style={{ background: isDark ? '#000000' : '#ffffff' }}
+      className="py-28 sm:py-36 px-4 sm:px-6 lg:px-8 text-center"
+    >
+      <motion.div
+        initial={{ opacity: 0, y: 16 }}
+        whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
-        transition={{ duration: 0.8 }}
-        className="max-w-4xl mx-auto text-center text-white relative z-10"
+        transition={{ duration: 0.6 }}
+        className="max-w-[800px] mx-auto space-y-6"
       >
-        <h2 className="text-4xl lg:text-5xl font-bold mb-6 mt-2 p-4">{t(lang, 'ctaTitle')}</h2>
-        <p className="text-xl mb-8 opacity-90">{t(lang, 'ctaDesc')}</p>
-        <motion.button 
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-          onClick={onStartLearning}
-          className="px-8 py-4 bg-white text-blue-600 rounded-lg font-semibold hover:shadow-xl transition inline-flex items-center gap-2"
+        <h2
+          className="font-display font-semibold sm:font-bold text-4xl sm:text-5xl lg:text-[64px] leading-[1.05] tracking-[-1.2px]"
+          style={{ color: isDark ? '#f5f5f7' : '#1d1d1f' }}
         >
-          {t(lang, 'ctaBtn')}
-          <ArrowForward sx={{ fontSize: 20 }} />
-        </motion.button>
+          {t(lang, 'ctaTitle')}
+        </h2>
+
+        <p
+          className="text-lg sm:text-[21px] leading-[1.38] tracking-[0.007em] font-normal max-w-2xl mx-auto"
+          style={{ color: isDark ? '#a1a1a6' : '#707070' }}
+        >
+          {t(lang, 'ctaDesc')}
+        </p>
+
+        {/* Primary CTA button — 980px radius pill button, #0071e3 */}
+        <div className="pt-4 flex flex-col sm:flex-row items-center justify-center gap-4">
+          <button
+            onClick={onStartLearning}
+            className="apple-pill-btn"
+          >
+            <span>{t(lang, 'ctaBtn')}</span>
+          </button>
+        </div>
       </motion.div>
     </section>
   );
 };
+

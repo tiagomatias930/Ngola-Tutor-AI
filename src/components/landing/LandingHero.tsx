@@ -1,128 +1,218 @@
-import React from 'react';
-import { ArrowForward, Psychology, VolumeUp, CheckCircle } from '@mui/icons-material';
+import React, { useState } from 'react';
+import { ChevronRight, Brain, Mic, BookOpen, Volume2, Video } from 'lucide-react';
 import { motion } from 'motion/react';
 import { t } from '../../i18n';
-import { LandingSectionProps } from './types';
+import { LandingSectionProps, APPLE_PALETTE } from './types';
 
 interface LandingHeroProps extends LandingSectionProps {
   onStartLearning: () => void;
   scrollToSection: (id: string) => void;
 }
 
+interface ProductFinish {
+  id: string;
+  name: string;
+  hex: string;
+  gradient?: string;
+  accentText: string;
+}
+
 export const LandingHero: React.FC<LandingHeroProps> = ({
   lang, c, isDark, onStartLearning, scrollToSection
 }) => {
-  const gradient = 'linear-gradient(to right, #4285f4, #ea4335, #fbbc05, #34a853)';
+  const finishes: ProductFinish[] = [
+    { id: 'sky', name: 'Sky', hex: APPLE_PALETTE.sky, accentText: '#1d1d1f' },
+    { id: 'citrus', name: 'Citrus', hex: APPLE_PALETTE.citrus, accentText: '#1d1d1f' },
+    { id: 'starlight', name: 'Starlight', hex: APPLE_PALETTE.starlight, accentText: '#1d1d1f' },
+    { id: 'silver', name: 'Silver', hex: APPLE_PALETTE.silver, accentText: '#1d1d1f' },
+    { id: 'blush', name: 'Blush', hex: APPLE_PALETTE.blush, accentText: '#1d1d1f' },
+    { id: 'indigo', name: 'Indigo', hex: APPLE_PALETTE.indigo, accentText: '#ffffff' },
+    { id: 'midnight', name: 'Midnight', hex: APPLE_PALETTE.midnight, accentText: '#ffffff' },
+  ];
+
+  const [selectedFinish, setSelectedFinish] = useState<ProductFinish>(finishes[0]);
 
   return (
-    <section id="home" className="pt-32 pb-20 px-4 sm:px-6 lg:px-8 mt-20 min-h-screen flex items-center overflow-hidden">
-      <div className="max-w-7xl mx-auto w-full">
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
-          <motion.div 
-            initial={{ opacity: 0, x: -50 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8, ease: 'easeOut' }}
-            className="space-y-8"
-          >
-            <div className="space-y-4">
-              <motion.div 
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ delay: 0.2, duration: 0.5 }}
-                style={{ background: c.heroBadgeBg }} className="inline-block px-4 py-2 rounded-full"
-              >
-                <span style={{ color: c.heroBadgeText }} className="font-medium text-sm">{t(lang, 'heroBadge')}</span>
-              </motion.div>
-              <h1 className="text-5xl lg:text-6xl font-bold leading-tight">
-                {t(lang, 'heroTitle1')}
-                <span style={{ background: gradient, backgroundClip: 'text', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
-                  {t(lang, 'heroTitle2')}
-                </span>
-              </h1>
-              <p style={{ color: c.textMuted }} className="text-xl">{t(lang, 'heroDesc')}</p>
-            </div>
-            <div className="flex flex-col sm:flex-row gap-4">
-              <motion.button 
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                onClick={onStartLearning}
-                style={{ background: c.accent }}
-                className="px-8 py-4 text-white rounded-lg font-semibold hover:opacity-90 transition flex items-center justify-center gap-2 group"
-              >
-                {t(lang, 'heroBtn1')}
-                <ArrowForward sx={{ fontSize: 20, transition: 'transform 0.2s' }} className="group-hover:translate-x-1" />
-              </motion.button>
-              <motion.button 
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                onClick={() => scrollToSection('features')}
-                style={{ border: `2px solid ${c.border}`, color: c.text, transition: 'all 0.2s' }}
-                className="px-8 py-4 rounded-lg font-semibold hover:opacity-80"
-              >
-                {t(lang, 'heroBtn2')}
-              </motion.button>
-            </div>
-          </motion.div>
+    <section
+      id="home"
+      style={{ background: isDark ? '#000000' : '#ffffff' }}
+      className="pt-32 sm:pt-40 pb-20 px-4 sm:px-6 lg:px-8 overflow-hidden text-center"
+    >
+      <div className="max-w-[1200px] mx-auto">
 
-          {/* Right Visual */}
-          <motion.div 
-            initial={{ opacity: 0, x: 50 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 1, delay: 0.3, ease: 'easeOut' }}
-            className="relative hidden lg:block"
+        {/* 1. "Nuevo" Badge — Inline text only, no background, #b64400 at 14px weight 500 */}
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="mb-2"
+        >
+          
+        </motion.div>
+
+        {/* 2. Product Name — 17px SF Pro Text centered */}
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.1 }}
+          className="mb-3"
+        >
+          <span
+            style={{ color: isDark ? '#f5f5f7' : '#1d1d1f' }}
+            className="text-[17px] font-normal tracking-[-0.022em]"
           >
-            <div className="relative w-full aspect-square max-w-[500px] ml-auto">
-              {/* Decorative glow behind the image */}
-              <motion.div 
-                animate={{ 
-                  scale: [1, 1.2, 1],
-                  opacity: [0.3, 0.5, 0.3]
-                }}
-                transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut' }}
-                className="absolute -inset-4 bg-gradient-to-tr from-blue-500/20 to-purple-500/20 blur-3xl rounded-full" 
+            Ngola Tutor AI
+          </span>
+        </motion.div>
+
+        {/* 3. Hero Headline — 80–96px SF Pro Display weight 700 with letter-spacing -1.44px */}
+        <motion.div
+          initial={{ opacity: 0, y: 14 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.15 }}
+          className="mb-5 max-w-4xl mx-auto"
+        >
+          <h1
+            style={{ color: isDark ? '#f5f5f7' : '#1d1d1f' }}
+            className="font-display font-semibold sm:font-bold text-5xl sm:text-7xl lg:text-[92px] leading-[1.04] tracking-[-1.44px]"
+          >
+            {lang === 'pt' ? 'A mente que guia a sua.' : 'The mind that guides yours.'}
+          </h1>
+        </motion.div>
+
+        {/* 4. Subtitle / Supporting paragraph at 21px SF Pro Text */}
+        <motion.div
+          initial={{ opacity: 0, y: 14 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.2 }}
+          className="mb-8 max-w-2xl mx-auto"
+        >
+          <p
+            style={{ color: isDark ? '#a1a1a6' : '#707070' }}
+            className="text-lg sm:text-[21px] leading-[1.38] tracking-[0.007em] font-normal"
+          >
+            {t(lang, 'heroDesc')}
+          </p>
+        </motion.div>
+
+        {/* 5. CTAs — Single chromatic blue pill button & subtle link with arrow */}
+        <motion.div
+          initial={{ opacity: 0, y: 14 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.25 }}
+          className="flex flex-col sm:flex-row items-center justify-center gap-5 mb-4"
+        >
+          {/* Filled Pill Button — 980px radius, #0071e3, 17px SF Pro Text */}
+          <button
+            onClick={onStartLearning}
+            className="apple-pill-btn"
+          >
+            <span>{t(lang, 'heroBtn1')}</span>
+          </button>
+
+          {/* Text Link with Arrow — 17px SF Pro Text in #0066cc */}
+          <button
+            onClick={() => scrollToSection('features')}
+            className="apple-link"
+          >
+            <span>{t(lang, 'heroBtn2')}</span>
+            <ChevronRight size={17} />
+          </button>
+        </motion.div>
+
+        {/* Free educational mention / fine print line (14px) */}
+        <motion.p
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.5, delay: 0.3 }}
+          style={{ color: isDark ? '#86868b' : '#707070' }}
+          className="text-xs sm:text-[14px] tracking-[-0.224px] mb-12"
+        >
+          {lang === 'pt' ? '100% Gratuito. Acessível por voz, visão e língua gestual.' : '100% Free. Accessible with voice, vision and sign language.'}
+        </motion.p>
+
+        {/* 6. Product Finish Swatch Selector (Sky, Citrus, Starlight, Silver, Blush, Indigo, Midnight) */}
+        <motion.div
+          initial={{ opacity: 0, y: 15 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.35 }}
+          className="flex items-center justify-center gap-3 mb-10"
+        >
+          <span
+            style={{ color: isDark ? '#a1a1a6' : '#707070' }}
+            className="text-xs tracking-tight mr-2"
+          >
+            {lang === 'pt' ? 'Acabamento:' : 'Finish:'} <strong className="font-medium text-inherit">{selectedFinish.name}</strong>
+          </span>
+          {finishes.map(f => (
+            <button
+              key={f.id}
+              onClick={() => setSelectedFinish(f)}
+              style={{
+                backgroundColor: f.hex,
+                outlineColor: selectedFinish.id === f.id ? (isDark ? '#2997ff' : '#0071e3') : 'transparent'
+              }}
+              className={`w-6 h-6 sm:w-7 sm:h-7 rounded-full transition-transform duration-200 outline-2 outline-offset-2 cursor-pointer ${
+                selectedFinish.id === f.id ? 'scale-115' : 'hover:scale-110 opacity-90'
+              }`}
+              title={f.name}
+            />
+          ))}
+        </motion.div>
+
+        {/* 7. Product Presentation Showcase — 28px border-radius, ZERO shadow, borderless */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.98 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.8, delay: 0.4 }}
+          className="relative max-w-[1020px] mx-auto rounded-[28px] overflow-hidden transition-colors duration-500"
+          style={{
+            backgroundColor: isDark ? '#161617' : selectedFinish.hex,
+            boxShadow: 'none',
+          }}
+        >
+          <div className="pt-12 px-6 sm:px-12 pb-0 flex flex-col items-center">
+            {/* Top Minimal Info Banner */}
+            <div className="flex flex-wrap items-center justify-center gap-6 mb-8 text-xs font-normal">
+              <span
+                style={{ color: isDark ? '#f5f5f7' : selectedFinish.accentText }}
+                className="inline-flex items-center gap-1.5 opacity-90"
+              >
+                <Mic size={14} /> {lang === 'pt' ? 'Voz Bidirecional' : 'Live Voice'}
+              </span>
+              <span
+                style={{ color: isDark ? '#f5f5f7' : selectedFinish.accentText }}
+                className="inline-flex items-center gap-1.5 opacity-90"
+              >
+                <Video size={14} /> {lang === 'pt' ? 'Visão Computacional' : 'Camera Vision'}
+              </span>
+              <span
+                style={{ color: isDark ? '#f5f5f7' : selectedFinish.accentText }}
+                className="inline-flex items-center gap-1.5 opacity-90"
+              >
+                <BookOpen size={14} /> {lang === 'pt' ? 'Quadro Interativo' : 'Whiteboard'}
+              </span>
+            </div>
+
+            {/* Hardware / Screen Display Container with 28px top radii */}
+            <div
+              className="w-full max-w-[880px] rounded-t-[24px] overflow-hidden border-t border-x border-black/10 dark:border-white/10"
+              style={{
+                backgroundColor: isDark ? '#000000' : '#ffffff',
+                boxShadow: 'none',
+              }}
+            >
+              <img
+                src="/Main.webp"
+                alt="Ngola Tutor Interface"
+                className="w-full h-auto object-cover block"
               />
-              
-              {/* Main Image with premium styling */}
-              <div className="absolute inset-0 rounded-[2.5rem] overflow-hidden shadow-2xl border border-white/10" 
-                style={{ 
-                  background: `url('/Main.webp')`, 
-                  opacity: isDark ? 0.8 : 1, 
-                  backgroundSize: 'cover', 
-                  backgroundPosition: 'center', 
-                  backgroundRepeat: 'no-repeat' 
-                }}>
-                <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent" />
-              </div>
-
-              {/* Floating Info Cards */}
-              {[
-                { pos: 'top-4 -right-4', Icon: Psychology, color: '#4285f4', bgIcon: isDark ? '#1e2538' : '#e8f0fe', title: t(lang, 'cardAI'), desc: t(lang, 'cardAIDesc'), delay: 0.8 },
-                { pos: 'bottom-8 -left-8', Icon: VolumeUp, color: '#ea4335', bgIcon: isDark ? '#2e1f1a' : '#fce5cd', title: t(lang, 'cardVoice'), desc: t(lang, 'cardVoiceDesc'), delay: 1.0 },
-                { pos: 'bottom-1/4 -right-8', Icon: CheckCircle, color: '#34a853', bgIcon: isDark ? '#1a2e1f' : '#e6f4ea', title: t(lang, 'cardHelp'), desc: t(lang, 'cardHelpDesc'), delay: 1.2 },
-              ].map((card, i) => (
-                <motion.div 
-                  key={i} 
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: card.delay, duration: 0.6 }}
-                  className={`absolute ${card.pos} w-48 rounded-2xl p-5 shadow-2xl backdrop-blur-md z-10`}
-                  style={{ 
-                    background: isDark ? 'rgba(30, 41, 59, 0.7)' : 'rgba(255, 255, 255, 0.8)',
-                    border: `1px solid ${isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.05)'}`
-                  }}>
-                  <div className="flex items-center gap-3 mb-2">
-                    <div className="w-10 h-10 rounded-xl flex items-center justify-center shadow-inner" style={{ background: card.bgIcon }}>
-                      <card.Icon sx={{ fontSize: 22, color: card.color }} />
-                    </div>
-                    <span className="font-bold text-sm">{card.title}</span>
-                  </div>
-                  <p style={{ color: c.textMuted }} className="text-xs leading-relaxed">{card.desc}</p>
-                </motion.div>
-              ))}
             </div>
-          </motion.div>
-        </div>
+          </div>
+        </motion.div>
+
       </div>
     </section>
   );
 };
+

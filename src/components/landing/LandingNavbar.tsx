@@ -1,5 +1,5 @@
 import React from 'react';
-import { Menu, Close, LightMode, DarkMode } from '@mui/icons-material';
+import { Menu, X, Sun, Moon, ArrowRight, Globe, ChevronRight } from 'lucide-react';
 import { t, type Lang } from '../../i18n';
 import { ThemeColors, Theme } from './types';
 
@@ -18,7 +18,7 @@ interface LandingNavbarProps {
 }
 
 export const LandingNavbar: React.FC<LandingNavbarProps> = ({
-  lang, theme, c, isDark, activeNav, mobileMenuOpen, 
+  lang, theme, c, isDark, activeNav, mobileMenuOpen,
   setMobileMenuOpen, setLang, setTheme, scrollToSection, onStartLearning
 }) => {
   const navItems = [
@@ -26,86 +26,150 @@ export const LandingNavbar: React.FC<LandingNavbarProps> = ({
     { id: 'features', label: t(lang, 'navFeatures') },
     { id: 'case-studies', label: t(lang, 'navCaseStudies') },
     { id: 'about', label: t(lang, 'navAbout') },
+    { id: 'faq', label: 'FAQ' },
   ];
 
   return (
-    <nav style={{ background: c.navBg, borderBottom: `1px solid ${c.border}`, transition: 'all 0.3s' }} className="fixed top-0 w-full backdrop-blur-sm z-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-20">
-          {/* Logo */}
-          <h1 className="text-3xl sm:text-4xl lg:text-4xl font-normal tracking-tight mb-3 text-center leading-tight mt-1">
-            <span className="text-[#4285f4]">N</span><span className="text-[#ea4335]">g</span>
-            <span className="text-[#fbbc05]">o</span><span className="text-[#4285f4]">l</span>
-            <span className="text-[#34a853]">a</span><span className="text-[#ea4335]"> </span>
-            <span style={{ color: c.text }}> Tutor</span>
-          </h1>
+    <header className="fixed top-0 left-0 right-0 z-50">     
 
-          {/* Desktop Menu */}
-          <div className="hidden md:flex items-center gap-6">
+      {/* Global Navigation Bar — Exact 44px Apple sticky bar */}
+      <nav
+        style={{
+          height: '44px',
+          background: isDark ? 'rgba(0, 0, 0, 0.82)' : 'rgba(255, 255, 255, 0.82)',
+          borderBottom: `1px solid ${isDark ? 'rgba(255, 255, 255, 0.12)' : '#d6d6d6'}`,
+          backdropFilter: 'blur(20px)',
+          WebkitBackdropFilter: 'blur(20px)',
+        }}
+        className="w-full flex items-center transition-colors duration-200"
+      >
+        <div className="max-w-[1200px] w-full mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center h-full">
+
+          {/* Logo & Brand */}
+          <div
+            onClick={() => scrollToSection('home')}
+            className="flex items-center gap-2 cursor-pointer select-none"
+          >
+            <div className="w-5 h-5 flex items-center justify-center">
+              <img src="/logoGT.png" alt="logo" className="w-full h-full object-contain" />
+            </div>
+            <span
+              className="font-display font-semibold text-sm tracking-tight"
+              style={{ color: isDark ? '#f5f5f7' : '#1d1d1f' }}
+            >
+              Ngola Tutor
+            </span>
+          </div>
+
+          {/* Desktop Links (12px SF Pro Text weight 400, color #1d1d1f or muted) */}
+          <div className="hidden md:flex items-center gap-7">
             {navItems.map(item => (
-              <button key={item.id} onClick={() => scrollToSection(item.id)}
-                style={{ color: activeNav === item.id ? c.accent : c.textMuted, transition: 'color 0.2s' }}
-                className="text-sm font-medium hover:opacity-80">
+              <button
+                key={item.id}
+                onClick={() => scrollToSection(item.id)}
+                style={{
+                  color: activeNav === item.id
+                    ? (isDark ? '#ffffff' : '#1d1d1f')
+                    : (isDark ? '#a1a1a6' : '#707070')
+                }}
+                className="text-xs font-normal tracking-tight hover:text-[#0071e3] transition-colors py-1 cursor-pointer"
+              >
                 {item.label}
               </button>
             ))}
+          </div>
 
+          {/* Right Action Utilities */}
+          <div className="hidden md:flex items-center gap-3">
             {/* Language Toggle */}
-            <button onClick={() => setLang(lang === 'en' ? 'pt' : 'en')}
-              style={{ border: `1px solid ${c.border}`, color: c.text, transition: 'all 0.2s' }}
-              className="flex items-center gap-2 px-3 py-1.5 rounded-xl text-xs font-bold hover:opacity-80 bg-white/5">
-              <span className="text-base">{lang === 'en' ? '🇺🇸' : '🇦🇴'}</span>
-              {lang.toUpperCase()}
+            <button
+              onClick={() => setLang(lang === 'en' ? 'pt' : 'en')}
+              style={{
+                color: isDark ? '#f5f5f7' : '#1d1d1f',
+              }}
+              className="text-xs font-normal px-2.5 py-1 rounded-[999px] hover:bg-[#e8e8ed] dark:hover:bg-[#2d2d2f] transition-colors flex items-center gap-1.5 cursor-pointer"
+              title="Mudar idioma"
+            >
+              <Globe size={13} className="text-[#707070]" />
+              <span>{lang === 'en' ? 'EN' : 'PT'}</span>
             </button>
 
             {/* Theme Toggle */}
-            <button onClick={() => setTheme(isDark ? 'light' : 'dark')}
-              style={{ border: `1px solid ${c.border}`, color: c.textMuted, transition: 'all 0.2s' }}
-              className="flex items-center justify-center w-9 h-9 rounded-full hover:opacity-80">
-              {isDark ? <LightMode sx={{ fontSize: 18 }} /> : <DarkMode sx={{ fontSize: 18 }} />}
+            <button
+              onClick={() => setTheme(isDark ? 'light' : 'dark')}
+              style={{ color: isDark ? '#f5f5f7' : '#1d1d1f' }}
+              className="p-1.5 rounded-[999px] hover:bg-[#e8e8ed] dark:hover:bg-[#2d2d2f] transition-colors cursor-pointer"
+              title={isDark ? "Modo Claro" : "Modo Escuro"}
+            >
+              {isDark ? <Sun size={14} className="text-[#f5f5f7]" /> : <Moon size={14} className="text-[#1d1d1f]" />}
             </button>
 
-            <button onClick={onStartLearning}
-              style={{ background: c.accent, transition: 'background 0.2s' }}
-              className="px-6 py-2.5 text-white rounded-lg font-medium hover:opacity-90">
-              {t(lang, 'navGetStarted')}
+            {/* Filled Pill Button (Primary CTA) — 980px radius, #0071e3, white text */}
+            <button
+              onClick={onStartLearning}
+              className="apple-pill-btn-sm cursor-pointer"
+            >
+              <span>{t(lang, 'navGetStarted')}</span>
             </button>
           </div>
 
-          {/* Mobile Menu Button */}
+          {/* Mobile Menu Controls */}
           <div className="flex items-center gap-2 md:hidden">
-            <button onClick={() => setLang(lang === 'en' ? 'pt' : 'en')}
-              style={{ color: c.text }} className="p-2 rounded-lg text-xl">
-              {lang === 'en' ? '🇺🇸' : '🇦🇴'}
+            <button
+              onClick={() => setLang(lang === 'en' ? 'pt' : 'en')}
+              className="px-2 py-1 text-xs font-normal"
+              style={{ color: isDark ? '#f5f5f7' : '#1d1d1f' }}
+            >
+              {lang.toUpperCase()}
             </button>
-            <button onClick={() => setTheme(isDark ? 'light' : 'dark')}
-              style={{ color: c.textMuted }} className="p-2 rounded-lg">
-              {isDark ? <LightMode sx={{ fontSize: 20 }} /> : <DarkMode sx={{ fontSize: 20 }} />}
+            <button
+              onClick={() => setTheme(isDark ? 'light' : 'dark')}
+              className="p-1.5"
+              style={{ color: isDark ? '#f5f5f7' : '#1d1d1f' }}
+            >
+              {isDark ? <Sun size={15} /> : <Moon size={15} />}
             </button>
-            <button onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              style={{ color: c.text }} className="p-2 rounded-lg">
-              {mobileMenuOpen ? <Close sx={{ fontSize: 24 }} /> : <Menu sx={{ fontSize: 24 }} />}
+            <button
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              className="p-1.5"
+              style={{ color: isDark ? '#f5f5f7' : '#1d1d1f' }}
+            >
+              {mobileMenuOpen ? <X size={18} /> : <Menu size={18} />}
             </button>
           </div>
         </div>
 
-        {/* Mobile Menu */}
+        {/* Mobile Dropdown Menu */}
         {mobileMenuOpen && (
-          <div style={{ borderTop: `1px solid ${c.border}` }} className="md:hidden pb-4">
-            {[...navItems, { id: 'contact', label: t(lang, 'navContact') }].map(item => (
-              <button key={item.id} onClick={() => scrollToSection(item.id)}
-                style={{ color: c.textMuted }} className="block w-full text-left px-4 py-2 font-medium hover:opacity-80">
+          <div
+            style={{
+              background: isDark ? '#000000' : '#ffffff',
+              borderBottom: `1px solid ${isDark ? '#2d2d2f' : '#d6d6d6'}`
+            }}
+            className="md:hidden absolute top-[44px] left-0 right-0 py-6 px-6 space-y-4 shadow-lg animate-in fade-in"
+          >
+            {navItems.map(item => (
+              <button
+                key={item.id}
+                onClick={() => scrollToSection(item.id)}
+                style={{ color: activeNav === item.id ? '#0071e3' : (isDark ? '#f5f5f7' : '#1d1d1f') }}
+                className="block w-full text-left text-base font-normal py-2"
+              >
                 {item.label}
               </button>
             ))}
-            <button onClick={onStartLearning}
-              style={{ background: c.accent }}
-              className="w-full mt-2 mx-4 px-6 py-2.5 text-white rounded-lg font-medium">
-              {t(lang, 'navGetStarted')}
-            </button>
+            <div className="pt-2">
+              <button
+                onClick={onStartLearning}
+                className="apple-pill-btn w-full justify-center"
+              >
+                <span>{t(lang, 'navGetStarted')}</span>
+              </button>
+            </div>
           </div>
         )}
-      </div>
-    </nav>
+      </nav>
+    </header>
   );
 };
+
