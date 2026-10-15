@@ -58,7 +58,7 @@ function resolveSessionSecret(env: NodeJS.ProcessEnv, nodeEnv: string): string {
   // Serverless instances must agree on the cookie secret. When SESSION_SECRET
   // is missing, derive a stable one from another private value instead of
   // taking the whole deployment down.
-  const seed = env.ADMIN_SECRET?.trim() || env.GEMINI_API_KEY?.trim();
+  const seed = env.ADMIN_SECRET?.trim() || env.Testing?.trim();
   if (seed) {
     console.warn('SESSION_SECRET missing or shorter than 32 chars; deriving one. Set SESSION_SECRET explicitly.');
     return crypto.createHmac('sha256', seed).update('ngola-tutor-session-secret').digest('hex');
@@ -81,10 +81,10 @@ export function loadConfig(env: NodeJS.ProcessEnv = process.env): AppConfig {
       .split(',')
       .map(value => value.trim())
       .filter(Boolean),
-    geminiApiKey: env.GEMINI_API_KEY?.trim() || undefined,
+    geminiApiKey: env.Testing?.trim() || undefined,
     gcpProject: env.GOOGLE_CLOUD_PROJECT?.trim() || undefined,
     firebaseCredentials: parseServiceAccount(env.FIREBASE_SERVICE_ACCOUNT),
-    geminiTextModel: env.GEMINI_TEXT_MODEL?.trim() || 'gemini-3.6-flash',
+    geminiTextModel: env.GEMINI_TEXT_MODEL?.trim() || 'gemini-3.8-flash',
     geminiImageModel: env.GEMINI_IMAGE_MODEL?.trim() || 'gemini-2.5-flash-image',
     geminiTimeoutMs: integer(env.GEMINI_TIMEOUT_MS, 20_000),
     geminiConcurrency: integer(env.GEMINI_CONCURRENCY, 4),
